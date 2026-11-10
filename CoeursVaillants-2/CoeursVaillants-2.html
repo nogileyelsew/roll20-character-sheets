@@ -1,0 +1,819 @@
+
+<input name="attr_sheet_version" value="" type="hidden"/>
+<input name="attr_pvmax" value="" type="hidden"/>
+<input name="attr_aventureMax" value="" type="hidden"/>
+<input name="attr_type_fiche" value="personnage" type="hidden"/>
+<input name="attr_edit_mode" value="on" type="hidden"/>
+<div class="coeurs-vaillants">
+  <header>
+    <div class="column-left">
+      <p>
+        <input class="check-button check-buttonComp" type="checkbox" id="checkedit_mode" value="1" name="attr_edit_mode"/>
+        <label for="checkedit_mode">Mode édition</label>
+      </p>
+      <select class="sheet-block_switch" name="attr_type_fiche">
+        <option selected="selected" value="personnage">Personnage</option>
+        <option value="bestiaire">Bestiaire</option>
+      </select>
+    </div>
+    <div class="column-middle"><img title="Version 2.0 - 02/07/2022" src="https://raw.githubusercontent.com/Roll20/roll20-character-sheets/master/CoeursVaillants-2/images/Logo.png" width="50%"/></div>
+  </header>
+  <main class="sheet-personnage">
+    <section class="sheet-personnage--view">
+      <div class="header--view">
+        <div class="column-left">
+          <p class="trait trait-nom"><span name="attr_character_name"></span>
+          </p>
+          <p class="trait"><strong>Description :</strong><span name="attr_charDesc"></span>
+          </p>
+          <p class="trait"><strong>Langues connues : </strong><span name="attr_langues"></span>
+          </p>
+        </div>
+        <div class="column-right">
+          <div class="niveau">
+            <p class="niveau-valeur"><strong>Niv</strong><span name="attr_niveau"></span>
+            </p>
+            <p><strong>XP</strong>
+              <input type="number" name="attr_xp" value="0"/>
+            </p><strong>/</strong>
+            <p><span name="attr_xpTotal"></span>
+            </p>
+          </div>
+          <div class="tips-list">
+            <p class="tips"><strong>1 XP : relancer avec Avantage</strong></p>
+            <p class="tips"><strong>3 XP × Niveau : gain de niveau</strong></p>
+            <p class="tips"><strong>6 XP : apprendre un nouveau Métier</strong></p>
+            <p class="tips"><strong>6 XP : Point d’Aventure supplémentaire</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="central--view">
+        <div class="row-top border-bottom">
+          <div class="column-left">
+            <p class="carac-big">
+              <input class="toggle" type="hidden" name="attr_CompVig"/>
+              <button class="sheet-btRoll20deminiv sheet-btBig" type="roll" name="roll_testvig" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Test de Vigueur}} {{carac=[[@{vig}]]}} {{rollResult1=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompVig})/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompVig})/2)]][Bonus]]]}}">Vig</button><span name="attr_vig"></span><strong>+</strong>
+            </p>
+            <p class="carac-big">
+              <input class="toggle" type="hidden" name="attr_CompDex"/>
+              <button class="sheet-btRoll20deminiv sheet-btBig" type="roll" name="roll_testdex" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Test de Dextérité}} {{carac=[[@{dex}]]}} {{rollResult1=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompDex})/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompDex})/2)]][Bonus]]]}}">Dex</button><span name="attr_dex"></span><strong>+</strong>
+            </p>
+            <p class="carac-big">
+              <input class="toggle" type="hidden" name="attr_CompInt"/>
+              <button class="sheet-btRoll20deminiv sheet-btBig" type="roll" name="roll_testint" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Test d’Intelligence}} {{carac=[[@{int}]]}} {{rollResult1=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompInt})/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompInt})/2)]][Bonus]]]}}">Int</button><span name="attr_int"></span><strong>+</strong>
+            </p>
+            <p class="carac-big">
+              <input class="toggle" type="hidden" name="attr_CompCha"/>
+              <button class="sheet-btRoll20deminiv sheet-btBig" type="roll" name="roll_testcha" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Test de Charisme}} {{carac=[[@{cha}]]}} {{rollResult1=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompCha})/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompCha})/2)]][Bonus]]]}}">Cha</button><span name="attr_cha"></span><strong>+</strong>
+            </p>
+          </div>
+          <div class="column-right">
+            <div class="row-top">
+              <div class="column-middle life--view">
+                <h4>Points de Vie</h4>
+                <div class="life-counter">
+                  <p>
+                    <input type="number" name="attr_pv" value="0"/>
+                  </p><strong>/</strong>
+                  <p><span name="attr_pv_max"></span>
+                  </p>
+                </div>
+                <div class="life-temp-aggr">
+                  <p><strong>PV temp.</strong>
+                    <input type="number" name="attr_pvTemp" value="0" title="Points de Vie temporaires"/>
+                  </p>
+                  <p>
+                    <input type="number" name="attr_pvAggr" value="0" title="Dégâts aggravés"/><strong>Dégâts Aggr.</strong>
+                  </p>
+                </div>
+                <div class="life-rolls">
+                  <p>
+                    <button class="sheet-btRoll4 sheet-btMid" type="roll" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Récupération - répit}} {{rollResult1=[[@{niveau}d4]] PV}}">Répit</button>
+                  </p>
+                  <p>
+                    <button class="sheet-btRoll8 sheet-btMid" type="roll" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Second souffle}} {{rollResult1=[[@{niveau}d8]] PV}}">2nd souffle</button>
+                  </p>
+                </div>
+              </div>
+              <div class="column-middle">
+                <h4>Points d’Aventure</h4>
+                <div class="aventure-counter">
+                  <p>
+                    <input type="number" name="attr_aventure" value="1"/>
+                  </p><strong>/</strong>
+                  <p><span name="attr_aventure_max"></span>
+                  </p>
+                </div>
+                <fieldset class="repeating_prouesses">
+                  <div class="tips-list">
+                    <p class="tips"><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/polar-star.svg" alt=""/><span name="attr_aventure_prouesse"></span>
+                    </p>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+            <div class="row-bottom">
+              <div class="column-middle">
+                <h4>Défense</h4>
+                <div class="defense-view">
+                  <p class="carac-big"><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/shield.svg" alt=""/><span name="attr_ca"></span>
+                  </p>
+                  <p><span name="attr_defBase"></span><strong>Base</strong>
+                  </p>
+                </div>
+              </div>
+              <div class="column-middle">
+                <h4>Mouvement</h4>
+                <div class="mouvement-view">
+                  <p class="carac-big">
+                    <input class="toggle" type="hidden" name="attr_CompMou"/>
+                    <button class="sheet-btRoll20deminiv sheet-btBig" type="roll" name="roll_testMan" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet de Mouvement}} {{carac=[[@{mouvement}]]}} {{rollResult1=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompMou})/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor((@{niveau}+@{niveau}*@{CompMou})/2)]][Bonus]]]}}"><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/barefoot.svg" alt=""/></button><span name="attr_mouvement"></span><strong>+</strong>
+                  </p>
+                  <p><strong>Base</strong><span name="attr_mouvementBase"></span><strong>+</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-bottom"><strong>Talents et Compensations :</strong>
+          <fieldset class="repeating_talents">
+            <div class="talents-view">
+              <p><span name="attr_talent"></span>
+              </p>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="buttons--view">
+        <p>
+          <button class="sheet-btRoll20deminiv sheet-btMid" type="roll" name="roll_testDemiNiv" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=1D20 + ½Niv}} {{rollResult1=[[1d20+[[floor(@{niveau}/2)]][Bonus]]]}} {{rollResult2=[[1d20+[[floor(@{niveau}/2)]][Bonus]]]}}">d20+½Niv</button>
+        </p>
+        <p>
+          <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testNiv" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=1D20 + Niv}} {{rollResult1=[[1d20+@{niveau}[Bonus]]]}} {{rollResult2=[[1d20+@{niveau}[Bonus]]]}}">d20+Niv</button>
+        </p>
+        <p>
+          <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testSave" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet de sauvegarde}} {{carac=[[@{svg}]]}} {{rollResult1=[[1d20+@{niveau}]]}} {{rollResult2=[[1d20+@{niveau}]]}}">Sauvegarde</button>
+        </p>
+        <p>
+          <input class="check-button check-buttonComp" type="checkbox" id="checkexalte" value="1" name="attr_exalte"/>
+          <label for="checkexalte">Exalté</label>
+        </p>
+        <p>
+          <button class="sheet-btRoll6 sheet-btMid" type="roll" name="roll_testChance" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet de chance}} {{jetChance=[[1d6]]}}">Dé de chance</button>
+        </p>
+        <p>
+          <button class="sheet-btRoll8 sheet-btMid" type="roll" name="roll_jetD8" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet D8}} {{rollResult1=[[1d8]]}}">d8</button>
+        </p>
+        <p>
+          <button class="sheet-btRoll4 sheet-btMid" type="roll" name="roll_jetD4" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet D4}} {{rollResult1=[[1d4]]}}">d4</button>
+        </p>
+      </div>
+      <div class="battle--view">
+        <div class="column-left">
+          <h4>Équipement</h4>
+          <div class="armure-view">
+            <p class="text-strong"><span name="attr_nameArmu"></span>
+            </p>
+            <p><strong>+</strong><span name="attr_bonusArmu"></span>
+            </p>
+            <p class="text-italic"><span name="attr_descArmu"></span>
+            </p>
+          </div>
+          <fieldset class="repeating_inventory">
+            <div class="weapons-view">
+              <p>
+                <button class="sheet-btRoll20niv sheet-btBig" type="roll" name="roll_testcombat1" value="&amp;{template:jet} {{characterName=@{character_name}}} {{arme=@{invArme1}}} {{rollResult1=[[1d20[D20]+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]+@{bonusArme1}[Bonus arme]]]}} {{rollResult2=[[1d20[D20]+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]+@{bonusArme1}[Bonus arme]]]}} {{coup=[[@{dmgArme1}]]}} {{desdegats=@{dmgArme1}}} {{tRollDesc=@{armDesc1}}}"></button>
+              </p>
+              <p class="text-strong"><span name="attr_invArme1"></span>
+              </p>
+              <p><strong>+</strong><span name="attr_bonusArme1"></span>
+              </p>
+              <p><span name="attr_dmgArme1"></span>
+              </p>
+              <p class="text-italic"><span name="attr_armDesc1"></span>
+              </p>
+            </div>
+            <div class="weapons-edit">
+              <p><strong>Arme</strong>
+                <input type="text" name="attr_invArme1" value=""/>
+              </p>
+              <p><strong>Bonus</strong>
+                <input type="number" name="attr_bonusArme1" value="0"/>
+              </p>
+              <p class="text-short"><strong>Dégâts</strong>
+                <input type="text" name="attr_dmgArme1" value=""/>
+              </p>
+              <p><strong>Description</strong>
+                <input type="text" name="attr_armDesc1" value=""/>
+              </p>
+            </div>
+          </fieldset>
+        </div>
+        <div class="column-middle">
+          <h4>
+            <div>Combat</div>
+            <p><strong>(bonus +</strong><span name="attr_bonusCombat"></span><strong>)</strong>
+            </p>
+          </h4>
+          <p>
+            <button class="sheet-btRoll8 sheet-btMid" type="roll" name="roll_testinit" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Jet d’Initiative}} {{rollResult1=[[@{initiative}+@{niveau} &amp;{tracker}]]}}">Initiative</button>
+          </p>
+          <div class="trucs-view"><strong>Trucs de combat</strong>
+            <div class="view-grid-4">
+              <p>
+                <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testtrucVig" title="Bousculer, frapper, pousser, écarter, brutaliser, intimider, percuter…" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Truc de combat (Vigueur)}} {{carac=[[@{vig}]]}} {{rollResult1=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}} {{rollResult2=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}}">Vig</button>
+              </p>
+              <p>
+                <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testtrucDex" title="Faucher, déséquilibrer, aveugler, désorienter, divertir, accélérer, rompre…" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Truc de combat (Dextérité)}} {{carac=[[@{dex}]]}} {{rollResult1=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}} {{rollResult2=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}}">Dex</button>
+              </p>
+              <p>
+                <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testtrucInt" title="Ruser, leurrer, surprendre, détourner, anticiper, surpasser, duper…" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Truc de combat (Intelligence)}} {{carac=[[@{int}]]}} {{rollResult1=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}} {{rollResult2=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}}">Int</button>
+              </p>
+              <p>
+                <button class="sheet-btRoll20niv sheet-btMid" type="roll" name="roll_testtrucCha" title="Subjuguer, humilier, insulter, jouer, berner, défier, rabattre…" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Truc de combat (Charisme)}} {{carac=[[@{cha}]]}} {{rollResult1=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}} {{rollResult2=[[1d20+@{niveau}[Niveau]+@{bonusCombat}[Bonus de combat]]]}}">Cha</button>
+              </p>
+            </div>
+          </div>
+          <div class="vitesse-and-tips">
+            <p class="vitesse-view"><strong>Vitesse</strong><span name="attr_mvt"></span><strong>pas</strong>
+            </p>
+            <div class="vitesse-tips">
+              <p><strong>Moitié : +1 attaque ou Déf</strong><span name="attr_vit_tips1"></span>
+              </p>
+              <p><strong>Double : -2 Déf</strong><span name="attr_vit_tips2"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ressources--view">
+        <div class="column-left border-bottom">
+          <p class="text-big"><strong>Origine : </strong><span name="attr_orig_name"></span>
+          </p>
+          <p><span name="attr_orig_atour"></span>
+          </p>
+          <p class="text-strong"><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/polar-star.svg" alt=""/><span name="attr_orig_prouesse"></span>
+          </p>
+          <p><strong>Don de naissance : </strong><span name="attr_donNaiss"></span>
+          </p>
+        </div>
+        <fieldset class="repeating_capacite">
+          <div class="row-top">
+            <div class="column-left">
+              <p class="text-big"><strong>Métier : </strong><span name="attr_capaName"></span>
+              </p>
+              <p><span name="attr_capaAtour"></span>
+              </p>
+              <p><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/anvil.svg" alt=""/><span name="attr_capaUsuel"></span>
+              </p>
+              <p class="text-strong"><img class="default-icon" src="https://chocolanoar.github.io/coeurs-vaillants-2-fiche-roll20/assets/polar-star.svg" alt=""/><span name="attr_capaProuesse"></span>
+              </p>
+            </div>
+            <p class="check-utilUsuel">
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="0"/><span>0</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="1"/><span>1</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="2"/><span>2</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="3"/><span>3</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="4"/><span>4</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="5"/><span>5</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="6"/><span>6</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="7"/><span>7</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="8"/><span>8</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="9"/><span>9</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="10"/><span>10</span>
+              </label>
+              <label>
+                <input type="radio" name="attr_utilUsuel" value="11"/><span>11</span>
+              </label>
+            </p>
+          </div>
+        </fieldset>
+      </div>
+      <div class="inventaire--view">
+        <div class="row-top">
+          <div class="column-middle">
+            <p><strong>Consommables</strong>
+              <textarea name="attr_bonus"></textarea>
+            </p>
+          </div>
+          <div class="column-middle">
+            <p><strong>Objets divers</strong>
+              <textarea name="attr_equip">Sac d’aventurier, rations, réserve de projectiles.</textarea>
+            </p>
+          </div>
+        </div>
+        <div class="row-bottom">
+          <p><strong>Points de trésor : </strong>
+            <input type="number" name="attr_po" value="0"/>
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="sheet-personnage--edit">
+      <div class="header--edit">
+        <div class="row-top">
+          <p><strong>Niveau</strong>
+            <input type="number" name="attr_niveau" value="1"/>
+          </p>
+          <p><strong>Points d’expérience</strong>
+            <input type="number" name="attr_xp" value="0"/>
+          </p>
+          <p><strong>Total XP acquis</strong>
+            <input type="number" name="attr_xpTotal" value="0"/>
+          </p>
+        </div>
+        <p>Pense-bête de montée de niveau : points de vie, points d’aventure, défense (½Niv), mouvement (½Niv), sauvegarde, usuels, talent.</p>
+        <div class="row-top">
+          <p><strong>Nom</strong>
+            <input type="text" name="attr_character_name" value=""/>
+          </p>
+          <p><strong>Langues connues </strong>
+            <input type="text" name="attr_langues" value=""/>
+          </p>
+        </div>
+        <p class="sheet-text3col"><strong>Description</strong>
+          <textarea name="attr_charDesc"></textarea>
+        </p>
+      </div>
+      <div class="central--edit">
+        <p>
+          <button class="sheet-btRoll6 sheet-btMid" type="roll" name="roll_rollCarac" title="Tirer une nouvelle série de caracs" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Tirage de Caractéristiques}} {{tSerie1=[[3d6]] [[3d6]] [[3d6]] [[3d6]]}} {{tSerie2=[[3d6]] [[3d6]] [[3d6]] [[3d6]]}} {{tRollDesc=Plus c’est bas mieux c’est !}}">Caractéristiques</button>
+        </p>
+        <div class="row-top border-bottom">
+          <p>
+            <p><strong>Vigueur</strong>
+              <input type="number" name="attr_vig" value="10"/>
+            </p>
+            <p>
+              <input class="check-button check-buttonComp" type="checkbox" id="checkCompVig" value="1" name="attr_CompVig"/>
+              <label for="checkCompVig">Compétent</label>
+            </p>
+          </p>
+          <p>
+            <p><strong>Dextérité</strong>
+              <input type="number" name="attr_dex" value="10"/>
+            </p>
+            <p>
+              <input class="check-button check-buttonComp" type="checkbox" id="checkCompDex" value="1" name="attr_CompDex"/>
+              <label for="checkCompDex">Compétent</label>
+            </p>
+          </p>
+          <p>
+            <p><strong>Intelligence</strong>
+              <input type="number" name="attr_int" value="10"/>
+            </p>
+            <p>
+              <input class="check-button check-buttonComp" type="checkbox" id="checkCompInt" value="1" name="attr_CompInt"/>
+              <label for="checkCompInt">Compétent</label>
+            </p>
+          </p>
+          <p>
+            <p><strong>Charisme</strong>
+              <input type="number" name="attr_cha" value="10"/>
+            </p>
+            <p>
+              <input class="check-button check-buttonComp" type="checkbox" id="checkCompCha" value="1" name="attr_CompCha"/>
+              <label for="checkCompCha">Compétent</label>
+            </p>
+          </p>
+        </div>
+        <div class="row-top border-bottom">
+          <p><strong>Total Points de Vie max</strong>
+            <input type="number" name="attr_pv_max" value="0"/>
+          </p>
+          <p>
+            <button class="sheet-btRoll8 sheet-btMid" type="roll" name="roll_jetdv" value="&amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Nouveaux PV}} {{rollResult1=[[@{niveau}d8+@{bonusPv}]]}}">Jet PV max</button>
+          </p>
+          <p><strong>Bonus aux PV max</strong>
+            <input type="number" name="attr_bonusPv" value="8"/>
+          </p>
+        </div>
+        <div class="row-top border-bottom">
+          <p><strong>Points d’Aventure max</strong>
+            <input type="number" name="attr_aventure_max" value="1"/>
+          </p>
+          <fieldset class="repeating_prouesses">
+            <p>
+              <input type="text" name="attr_aventure_prouesse" value=""/>
+            </p>
+          </fieldset>
+        </div>
+        <h4>Défense</h4>
+        <div class="row-top border-bottom">
+          <p><strong>Défense de base</strong>
+            <input type="number" name="attr_defBase" value="10"/>
+          </p>
+          <p><strong>Seuil de défense (avec armure)</strong>
+            <input type="number" name="attr_ca" value="10"/>
+          </p>
+          <p><strong>Seuil de sauvegarde</strong>
+            <input type="number" name="attr_svg" value="15"/>
+          </p>
+        </div>
+        <h4>Mouvement</h4>
+        <div class="row-top border-bottom">
+          <p><strong>Seuil de mouvement de base</strong>
+            <input type="number" name="attr_mouvementBase" value="10"/>
+          </p>
+          <p><strong>Seuil de mouvement (avec armure)</strong>
+            <input type="number" name="attr_mouvement" value="10"/>
+          </p>
+          <p>
+            <input class="check-button check-buttonComp" type="checkbox" id="checkCompMou" value="1" name="attr_CompMou"/>
+            <label for="checkCompMou">Compétent</label>
+          </p>
+        </div>
+        <h4>Talents et Compensations</h4>
+        <fieldset class="repeating_talents">
+          <p>
+            <input type="text" name="attr_talent" value=""/>
+          </p>
+        </fieldset>
+      </div>
+      <div class="battle--edit">
+        <h4>Combat</h4>
+        <div class="row-top border-bottom">
+          <p><strong>Bonus aux jets de combat</strong>
+            <input type="number" name="attr_bonusCombat" value="0"/>
+          </p>
+          <p class="text-short"><strong>Initiative</strong>
+            <input type="text" name="attr_initiative" value="1d8"/>
+          </p>
+          <p><strong>Vitesse</strong>
+            <input type="number" name="attr_mvt" value="6"/><strong> pas</strong>
+          </p>
+        </div>
+        <h4>Équipement</h4>
+        <div class="row-top">
+          <p><strong>Armure</strong>
+            <input type="text" name="attr_nameArmu" value="" placeholder="Armure de cuir…"/>
+          </p>
+          <p><strong>Bonus d’armure</strong>
+            <input type="number" name="attr_bonusArmu" value="0"/>
+          </p>
+          <p>
+            <input type="text" name="attr_descArmu" value="" placeholder="Armure ouvragée solide…"/>
+          </p>
+        </div>
+        <fieldset class="repeating_inventory">
+          <div class="row-top">
+            <p><strong>Arme</strong>
+              <input type="text" name="attr_invArme1" value=""/>
+            </p>
+            <p><strong>Bonus</strong>
+              <input type="number" name="attr_bonusArme1" value="0"/>
+            </p>
+            <p class="text-short"><strong>Dégâts</strong>
+              <input type="text" name="attr_dmgArme1" value=""/>
+            </p>
+            <p><strong>Description</strong>
+              <input type="text" name="attr_armDesc1" value=""/>
+            </p>
+          </div>
+        </fieldset>
+      </div>
+      <div class="ressources--edit">
+        <div class="column-left border-bottom">
+          <p><strong>Origine</strong>
+            <input type="text" name="attr_orig_name" value="" placeholder="Nom de l’origine"/>
+          </p>
+          <p>
+            <textarea name="attr_orig_atour" placeholder="Atour"></textarea>
+          </p>
+          <p>
+            <textarea name="attr_orig_prouesse" placeholder="Prouesse"></textarea>
+          </p>
+          <p><strong>Don de naissance</strong>
+            <textarea name="attr_donNaiss"></textarea>
+          </p>
+        </div>
+        <fieldset class="repeating_capacite">
+          <div class="column-left">
+            <p><strong>Métier</strong>
+              <input type="text" name="attr_capaName" value="" placeholder="Nom du métier"/>
+            </p>
+            <p>
+              <textarea name="attr_capaAtour" placeholder="Atour"></textarea>
+            </p>
+            <p>
+              <textarea name="attr_capaUsuel" placeholder="Usuel"></textarea>
+            </p>
+            <p>
+              <textarea name="attr_capaProuesse" placeholder="Prouesse"></textarea>
+            </p>
+          </div>
+        </fieldset>
+      </div>
+      <div class="legacy--edit">
+        <h4>Anciens champs</h4>
+        <p><strong>Peuple</strong>
+          <input type="text" name="attr_peuple" value=""/>
+        </p>
+        <p><strong>Classe</strong>
+          <input type="text" name="attr_classe" value=""/>
+        </p>
+        <p class="sheet-text3col"><strong>Historique</strong>
+          <textarea name="attr_historique"></textarea>
+        </p>
+        <p class="sheet-text3col"><strong>Compensations</strong>
+          <textarea name="attr_compensations"></textarea>
+        </p>
+      </div>
+    </section>
+  </main>
+  <main class="sheet-bestiaire">
+    <section class="sheet-bestiaire--view">
+      <div class="bestiary-traits--view">
+        <div class="row-top">
+          <p class="trait-nom"><span name="attr_character_name"></span>
+          </p>
+          <p>
+            <select name="attr_jetCache" id="attr_jetCache" style="width: 110px; margin-left: 15px;">
+              <option value="/w gm ">Jets cachés</option>
+              <option value=" ">Jets publics</option>
+            </select>
+          </p>
+        </div>
+        <div class="row-top">
+          <p class="niveau-valeur"><strong>Niv</strong><span name="attr_pnjNiv"></span>
+          </p>
+          <p>
+            <p><strong>PV</strong>
+              <input type="number" name="attr_pnjpv" value="0"/>
+            </p><strong>/</strong>
+            <p><span name="attr_pnjpv_max"></span>
+            </p>
+          </p>
+          <p><strong>Déf</strong><span name="attr_pnjDef"></span>
+          </p>
+          <p><strong>Vitesse</strong><span name="attr_pnjVts"></span><strong>pas</strong>
+          </p>
+          <p>
+            <button class="sheet-btRoll20niv" type="roll" name="roll_jetsvgpnj" value="@{jetCache} &amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Sauvegarde PNJ}} {{carac=[[@{pnjsvg}]]}} {{rollResult1=[[1d20+@{pnjNiv}]]}} {{rollResult2=[[1d20+@{pnjNiv}]]}}">Sauvegarde</button>
+          </p>
+          <p>
+            <button class="sheet-btRoll8" type="roll" name="roll_testinit" value="@{jetCache} &amp;{template:jet} {{characterName=@{character_name}}} {{rollname=Initiative PNJ}} {{rollResult1=[[@{initiative}+[[{ {@{pnjNiv}}, {12}}kl1]] &amp;{tracker}]]}}">Initiative</button>
+          </p>
+        </div>
+      </div>
+      <div class="bestiary-action--view">
+        <h4>Actions</h4>
+        <div class="row-top">
+          <div class="column-left">
+            <fieldset class="repeating_bestiary-attaques">
+              <div class="weapons-view">
+                <p>
+                  <button class="sheet-btRoll20niv" type="roll" name="roll_testpnjcombat" value="@{jetCache} &amp;{template:jet} {{characterName=@{character_name}}} {{arme=@{pnjatt}}} {{rollResult1=[[1d20[D20]+[[@{pnjAttBonus}]][Bonus]+[[{ {@{pnjNiv}}, {12}}kl1]]]]}} {{rollResult2=[[1d20[D20]+[[@{pnjAttBonus}]][Bonus]+[[{ {@{pnjNiv}}, {12}}kl1]]]]}} {{coup=[[@{pnjdmgatt}]]}} {{desdegats=@{pnjdmgatt}}} {{tRollDesc=@{pnjAttDesc}}}"></button>
+                </p>
+                <p class="text-strong"><span name="attr_pnjatt"></span>
+                </p>
+                <p><strong>+</strong><span name="attr_pnjAttBonus"></span>
+                </p>
+                <p><span name="attr_pnjdmgatt"></span>
+                </p>
+                <p class="text-italic"><span name="attr_pnjAttDesc"></span>
+                </p>
+              </div>
+              <div class="weapons-edit">
+                <p><strong>Attaque</strong>
+                  <input type="text" name="attr_pnjatt" value=""/>
+                </p>
+                <p class="text-short"><strong>Bonus</strong>
+                  <input type="text" name="attr_pnjAttBonus" value="0"/>
+                </p>
+                <p class="text-short"><strong>Dégâts</strong>
+                  <input type="text" name="attr_pnjdmgatt" value=""/>
+                </p>
+                <p><strong>Description</strong>
+                  <input type="text" name="attr_pnjAttDesc" value=""/>
+                </p>
+              </div>
+            </fieldset>
+          </div>
+          <div class="column-left">
+            <fieldset class="repeating_bestiary-otheractions">
+              <div class="weapons-view">
+                <p>
+                  <button class="sheet-btRoll20niv" type="roll" name="roll_testpnjaction" value="@{jetCache} &amp;{template:jet} {{characterName=@{character_name}}} {{rollname=@{pnjact}}} {{rollResult1=[[@{pnjrollact}]]}} {{tRollDesc=@{pnjactdesc}}}"></button>
+                </p>
+                <p class="text-strong"><span name="attr_pnjact"></span>
+                </p>
+                <p><span name="attr_pnjrollact"></span>
+                </p>
+                <p class="text-italic"><span name="attr_pnjactdesc"></span>
+                </p>
+              </div>
+              <div class="weapons-edit">
+                <p><strong>Action</strong>
+                  <input type="text" name="attr_pnjact" value=""/>
+                </p>
+                <p class="text-short"><strong>Jet</strong>
+                  <input type="text" name="attr_pnjrollact" value=""/>
+                </p>
+                <p><strong>Description</strong>
+                  <input type="text" name="attr_pnjactdesc" value=""/>
+                </p>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div class="bestiary-capacites--view">
+        <p class="text-noedit resize-wrapper">
+          <textarea name="attr_pnjPermanent" readonly="readonly"></textarea>
+        </p>
+      </div>
+    </section>
+    <section class="sheet-bestiaire--edit">
+      <div class="bestiary-traits--edit">
+        <div class="row-top">
+          <p class="trait-nom"><strong>Nom</strong>
+            <input type="text" name="attr_character_name" value=""/>
+          </p>
+          <p>
+            <select name="attr_jetCache" id="attr_jetCache" style="width: 110px; margin-left: 15px;">
+              <option value="/w gm ">Jets cachés</option>
+              <option value=" ">Jets publics</option>
+            </select>
+          </p>
+        </div>
+        <div class="row-top">
+          <p><strong>Niveau</strong>
+            <input type="number" name="attr_pnjNiv" value="1"/>
+          </p>
+          <p><strong>Points de Vie max</strong>
+            <input type="number" name="attr_pnjpv_max" value=""/>
+          </p>
+          <p><strong>Points de Vie bonus</strong>
+            <input type="number" name="attr_pnjPvBonus" value="0"/>
+          </p>
+          <p>
+            <button class="sheet-btRoll8" type="roll" name="roll_jetpvpnj" value="@{jetCache} &amp;{template:jet} {{characterName=@{character_name}}} {{rollname=PV du PNJ}} {{rollResult1=[[{@{pnjNiv}d8,1d4}kh1+@{pnjPvBonus}]]}}">Jet PV max</button>
+          </p>
+        </div>
+        <div class="row-top">
+          <p><strong>Défense</strong>
+            <input type="number" name="attr_pnjDef" value="10"/>
+          </p>
+          <p class="text-short"><strong>Vitesse</strong>
+            <input type="text" name="attr_pnjVts" value="6"/>
+          </p>
+          <p><strong>Seuil de sauvegarde</strong>
+            <input type="number" name="attr_pnjsvg" value="18"/>
+          </p>
+          <p class="text-short"><strong>Jet d’initiative</strong>
+            <input type="text" name="attr_initiative" value="1d8"/>
+          </p>
+        </div>
+      </div>
+      <div class="bestiary-action--edit">
+        <h4>Attaques</h4>
+        <fieldset class="repeating_bestiary-attaques">
+          <div class="row-top">
+            <p><strong>Attaque</strong>
+              <input type="text" name="attr_pnjatt" value=""/>
+            </p>
+            <p class="text-short"><strong>Bonus</strong>
+              <input type="text" name="attr_pnjAttBonus" value="0"/>
+            </p>
+            <p class="text-short"><strong>Dégâts</strong>
+              <input type="text" name="attr_pnjdmgatt" value=""/>
+            </p>
+            <p><strong>Description</strong>
+              <input type="text" name="attr_pnjAttDesc" value=""/>
+            </p>
+          </div>
+        </fieldset>
+        <h4>Autres actions</h4>
+        <fieldset class="repeating_bestiary-otheractions">
+          <div class="row-top">
+            <p><strong>Action</strong>
+              <input type="text" name="attr_pnjact" value=""/>
+            </p>
+            <p class="text-short"><strong>Jet</strong>
+              <input type="text" name="attr_pnjrollact" value=""/>
+            </p>
+            <p><strong>Description</strong>
+              <input type="text" name="attr_pnjactdesc" value=""/>
+            </p>
+          </div>
+        </fieldset>
+      </div>
+      <div class="bestiary-capacites--edit">
+        <h4>Capacités</h4>
+        <p class="sheet-text3col resize-wrapper">
+          <textarea name="attr_pnjPermanent"></textarea>
+        </p>
+      </div>
+      <div class="bestiary-legacy--edit">
+        <h4>Anciens champs</h4>
+        <div class="row-top">
+          <input type="text" name="attr_pnjarm1" style="width: 30%;" placeholder="Arme/Attaque"/>
+          <input class="sheet-medium" type="text" name="attr_pnjdmgarm1" placeholder="1d8"/>
+          <input type="text" name="attr_pnjArmDesc1" style="width: 50%;" placeholder="Description"/>
+        </div>
+        <div class="row-top">
+          <input type="text" name="attr_pnjarm2" style="width: 30%;" placeholder="Arme/Attaque"/>
+          <input class="sheet-medium" type="text" name="attr_pnjdmgarm2" placeholder="1d8"/>
+          <input type="text" name="attr_pnjArmDesc2" style="width: 50%;" placeholder="Description"/>
+        </div>
+        <div class="row-top">
+          <input type="text" name="attr_pnjarm4" style="width: 30%;" placeholder="Arme/Attaque"/>
+          <input class="sheet-medium" type="text" name="attr_pnjdmgarm4" placeholder="1d8"/>
+          <input type="text" name="attr_pnjArmDesc4" style="width: 50%;" placeholder="Description"/>
+        </div>
+        <div class="row-top">
+          <input type="text" name="attr_pnjarm3" style="width: 30%;" placeholder="Autre action"/>
+          <input class="sheet-medium" type="text" name="attr_pnjdmgarm3" placeholder="macro"/>
+          <input type="text" name="attr_pnjArmDesc3" style="width: 50%;" placeholder="Description"/>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script type="text/worker">on("sheet:opened", function() {
+    getAttrs(["pvmax","aventureMax","sheet_version"], function(values) {
+        const sheet_version = parseInt(values.sheet_version) || 0;
+        var attrs = {};
+
+        // get attribute updates for each version until the sheet has completed all steps
+        // NOTE: to maintain backwards compatibility with sheets predating the version attribute, all steps will be performed for new sheets
+        if (sheet_version < 1) {
+            attrs["sheet_version"] = 1;
+            attrs["pv_max"] = values.pvmax;
+            attrs["aventure_max"] = values.aventureMax;
+        }
+        
+        /*
+        * if (sheet_version < 2) {
+        *     attrs["sheet_version"] = 2;
+        * }
+        */
+
+        if (Object.keys(attrs).length) {
+            setAttrs(attrs);
+        }
+    });
+});
+</script>
+<rolltemplate class="sheet-rolltemplate-jet">
+  <div class="sheet-template-main">
+    <div class="sheet-template-charName">{{characterName}}</div>{{#rollname}}
+    <div class="sheet-template-title">{{rollname}}</div>{{/rollname}}
+    {{#tSerie1}}{{#tSerie2}}
+    <div class="sheet-noCrit">Série 1 : {{tSerie1}}</div>
+    <div class="sheet-noCrit">Série 2 : {{tSerie2}}</div>{{/tSerie2}}{{/tSerie1}}
+    {{^carac}}{{^arme}}
+    {{#rollResult1}}{{^rollResult2}}
+    <div class="sheet-noCrit">Résultat : {{rollResult1}}</div>{{/rollResult2}}{{/rollResult1}}
+    {{#rollResult1}}{{#rollResult2}}
+    <div class="sheet-enableCrit">Résultat : {{rollResult1}} | {{rollResult2}}</div>{{/rollResult2}}{{/rollResult1}}
+    {{#jetChance}}
+    {{#rollGreater() jetChance 3}}
+    <div class="sheet-noCrit">Résultat :<span class="sheet-template-success">{{jetChance}}, Oui !</span></div>{{/rollGreater() jetChance 3}}
+    {{#rollLess() jetChance 4}}
+    <div class="sheet-noCrit">Résultat :<span class="sheet-template-failure">{{jetChance}}, Non !</span></div>{{/rollLess() jetChance 4}}
+    {{/jetChance}}
+    {{/arme}}{{/carac}}
+    {{#carac}}
+    <div>Seuil : {{carac}}+
+      <div class="sheet-enableCrit">
+        Jet : {{#rollGreater() rollResult1 carac}}<span class="sheet-template-success">{{rollResult1}}</span>{{/rollGreater() rollResult1 carac}}
+        {{#rollLess() rollResult1 carac}}<span class="sheet-template-failure">{{rollResult1}}</span>{{/rollLess() rollResult1 carac}}
+        {{#rollTotal() rollResult1 carac}}<span class="sheet-template-success">{{rollResult1}}</span>{{/rollTotal() rollResult1 carac}}<span>| </span>{{#rollGreater() rollResult2 carac}}<span class="sheet-template-success">{{rollResult2}}</span>{{/rollGreater() rollResult2 carac}}
+        {{#rollLess() rollResult2 carac}}<span class="sheet-template-failure">{{rollResult2}}</span>{{/rollLess() rollResult2 carac}}
+        {{#rollTotal() rollResult2 carac}}<span class="sheet-template-success">{{rollResult2}}</span>{{/rollTotal() rollResult2 carac}}
+      </div>
+    </div>{{/carac}}
+    {{#arme}}
+    <div class="sheet-template-title">Attaque avec {{arme}}</div>
+    <div class="sheet-enableCrit">
+      Touche une défense de {{rollResult1}} | {{rollResult2}}{{#coup}}{{#desdegats}}
+      <div class="sheet-noCrit">Pour {{desdegats}} dégâts : {{coup}}</div>{{/desdegats}}{{/coup}}
+    </div>{{/arme}}
+    {{#tRollDesc}}
+    <div class="sheet-template-rollDesc">{{tRollDesc}}</div>{{/tRollDesc}}
+  </div>
+</rolltemplate>

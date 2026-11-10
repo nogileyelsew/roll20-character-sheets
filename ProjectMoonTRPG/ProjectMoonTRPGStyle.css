@@ -1,841 +1,1398 @@
-    *{
-        margin: 0px;
-        padding: 0px;
-        text-decoration: none;
-        list-style: none;
-        font-family: 'Noto Sans JP', sans-serif;
-        border-style: none;
+/* Universal styling */
+* {
+    margin: 0px;
+    padding: 0px;
+    text-decoration: none;
+    list-style: none;
+    border-style: none;
 	line-height: 1;
-    }
-
-body {
     font-family: 'Noto Sans JP', sans-serif;
-    }
+}
 
 
-    @font-face {
-        font-family: 'HeirofLightRegular';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightRegular.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
-    @font-face {
-        font-family: 'HeirofLightBold';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/HeirofLightBold.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
+/* Sheet base */
+#menuContainer {
+    width: 100%;
+    display: flex;
+    position: relative;
+    min-width: 800px;
+}
 
+#sheetTitle {
+    color: #fee2b0; 
+    font-weight: bolder;
+    display: flex;
+    align-items: center;
+    font-size: 15pt;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 180px;
+    min-width: 600px;
+}
+
+#sheetWrapper {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.sheetform {
+    background-color: #1F1F1F !important; 
+    position: relative; 
+    min-width: 850px;
+}
+
+.title, body, .sheet-body {
+    min-width: 800px;
+    max-width: 850px;
+}
+
+
+/* Popup messages */
+#messagePop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 999;
+}
+
+#messagePop input, #messagePop textarea {
+    text-align: center;
+}
+
+.messageClose {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 1px rgba(256,256,256, 0.5) solid;
+    border-radius: 5px;
+    z-index: 900;
+    width: 30px;
+    height: 30px;
+}
+
+.messageClose label {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.mHeader{
+    font-size: 20px;
+    color: #fee2b0 !important;
+}
+
+.mBody {
+    border: none;
+    /* border: 1px red solid !important; */
+}
+
+.messageContent {
+    position: absolute;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px #fee2b0 solid;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 5px;
+    color: #fee2b0;
+    width: 50%;
+    min-width: 350px;
+    padding: 5px;
+    height: 0px;
+    opacity: 0;
+    overflow: hidden;
+    /* transition: opacity 0.55s, height 1s; */
+}
+
+#messageToggle:checked ~ #messagePop .messageContent  {
+    height: 100px;
+    opacity: 100%;
+    /* transition: opacity 0.55s, height 0s; */
+}
+
+
+/* Placeholder text for input fields and textfields */
 ::placeholder {
-color: #fff;
-opacity: 50%;
+    color: #fff;
+    opacity: 50%;
 }
 
-textarea::placeholder, .CharResidence::placeholder, .egoIdeologyInput::placeholder {
-color: #111;
-opacity: 30%;
+textarea::placeholder, .CharSmallNotes::placeholder, .CharDetail::placeholder, .egoIdeologyInput::placeholder {
+    color: #111;
+    opacity: 30%;
 }
 
-.contentName, .viewerName, .skillName, .headerName, .skillSelectionElement .skillSelectionName, input[type=text] {
-text-overflow:ellipsis;
-}
 
-.contentName, .skillName {
-width: 140px !important;
+/* Cusomizable names for equipment, skills, mystery ect. */
+.contentName, .viewerName, .skillName, .toolName, .skillSelectionElement .skillSelectionName, input[type=text] {
+    text-overflow:ellipsis;
 }
-
+.contentName {
+    width: 100%;
+}
 .skillName {
-margin-left: 40px;}
+    width: 140px;
+    margin-left: 40px;
+}
+.toolName {
+    width: 95px;
+}
 
+
+/* Setting bars that appear when editing weapon/tool uses, outfit resistances ect. */
+.editCover {
+    position: absolute;
+    z-index: 5;
+    background-image: linear-gradient(rgba(160,160,160,0.8), rgba(160,160,160,0.9), rgba(160,160,160,0.7));
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    min-height: 25px;
+}
+.editCover .settingStyle {
+    color: #fff;
+}
+.helperText:checked ~ .helperTextContainer .helpers b {
+    display: none !important;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer :is(.slash, .pierce) {
+    margin-right: 28px;
+}
+.helperText:checked ~ .damageHelperContainer.helperTextContainer .blunt {
+    position: absolute;
+    top: 0px;
+    left: 28px;
+}
+.editCover > .rowContainer,
+.editCover > .hide-item,
+.editCover > .hide-item > .rowContainer {
+    position: relative;
+    height: 100%;
+}
+/* Currently unused. Will wrap a fourth ego outfit property down to a second row */
+/* If outfits ever gain more than this many properties a change should probably be made
+   to a columnAligned rowContainer structure */
+.distortionContainer .editCover .rowContainer .rowContainer:nth-child(n+4),
+.egoContainer .editCover .rowContainer .rowContainer:nth-child(n+4) {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+
+/* Dropdown menues in top right corner of augments and special items */
 .topRight {
-height: 25px;
-position: absolute;
-right: 5px;
-text-align: center;
-top: 5px;}
-
-a, a:hover {
-text-decoration: none !important;}
-
-#mainContainer {
-width: 100%;
-display: flex;
-position: relative;
-min-width: 800px;
-
+    width: 140px;
+    height: 25px;
+    position: absolute;
+    right: 5px;
+    text-align: center;
+    top: 5px;
 }
 
+
+/* Displays for the health, stagger, sanity and light bars as well as the distortion counter */
 .banner {
-text-align: left; font-weight: bold; padding: 5px; width: 50%;
-height: 50px; color: #fff;
-text-transform: uppercase;
+    text-align: left; font-weight: bold; padding: 5px; width: 50%;
+    height: 50px; color: #fff;
+    text-transform: uppercase;
+}
+.counter {
+    opacity: 100%;
+}
+.Cstat, .Mstat {
+    font-size: 16pt; 
+    font-weight: bold;
+}
+.Cstat, .Tstat {
+    color: #111; 
+    background-color: transparent !important; 
+    width: 125% !important; 
+    height: 100% !important;  
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    opacity: 80%;
+    padding-left: 5px;
+}
+.Mstat {
+    color: rgba(0,0,0,0.5);
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    width: 50% !important; 
+    height: 100% !important; 
+    text-align: center; 
+    border-radius: 0px 3px 3px 0px;
+    z-index: 10;
+}
+.distortProfile .bars {
+    width: 65px !important;
+    height: 25px !important; 
+    background-color: transparent;
+    opacity: 70%;
+}
+.distortProfile .Cstat {
+    width: 130% !important;
+    font-size: 14pt;
+    opacity: 100%;
+}
+.distortProfile .Mstat {
+    font-size: 14pt;
+    border-left: 2px #cc4125 dotted;
+    background-color: #000;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20;
+}
+.bars {position: relative; background-color: #111; width: 90px !important; height: 37px; border-radius: 5px;}
+.contentBlock { width: 100%; display: flex; justify-content: start; align-items: start; }
+
+/* Blue border for Temporary HP and ST */
+.bars:has(> .style-toggle-rev:not(:checked)) {
+    border: 2px solid #1f9bd9c0 !important;
+    top: -3px;
+    left: -3px;
+    z-index: 1;
+}
+.bars:has(> .style-toggle-rev:checked) {
+    border: 0px !important;
+}
+.banner:has(.style-toggle-rev:not(:checked)) span {
+    position: relative;
+    top: -1px;
+    z-index: 2;
 }
 
+#Counter span {
+    font-weight: bold;
+}
+
+
+/* Assorted sizing and positioning of sheet elements. Most are self-explanatory */
 .rowContainer {
-display: flex;
-align-items: start;
-justify-content: start;
-width: 100%;
-position: relative;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    position: relative;
 }
 
 .centerFlex {
-align-items: center;
-justify-content: center;}
-
-.rowContainer select {
-width: 100%;
-text-align: center;}
-
-#credits, #settings {
-border: 1px transparent solid;
+    align-items: center;
+    justify-content: center;
 }
 
-#settings label {
-color: #fff !important;
-font-size: 10pt !important;
+.rowContainer select {
+    text-align: center;
+}
+
+.settingStyle {
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 .qolButton {
-height: 15px;
-width: 15px;
-align-text: center;
-border: 1px #fee2b0 solid;
-color: #fee2b0;
-padding: 3px;
-border-radius: 5px;
-background-color: rgba(0,0,0,0);
-float: left;
-font-size: 12pt;
-font-weight: bold;
-opacity: 50%;
-margin-right: 5px;
+    height: 15px;
+    width: 15px;
+    text-align: center;
+    border: 1px #fee2b0 solid;
+    color: #fee2b0;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0);
+    float: left;
+    font-size: 12pt;
+    font-weight: bold;
+    opacity: 50%;
+    margin-right: 5px;
+}
+
+.reloadButton {
+    height: 15px;
+    width: 15px;
+    padding: 3px;
+    border-radius: 5px;
+    border: 1px #fee2b0 solid;
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0);
+    opacity: 40%;
+    position: absolute;
+    top: 3px;
+    right: -5px;
 }
 
 .titleHeader {
-height: 30px;
-margin-top: 5px;
-margin-bottom: 5px;
-display: flex;
-align-items: center;
-opacity: 100%;
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    opacity: 100%;
 }
 
-
-
-#credits {
-width: 27px;
-height: 27px;
-position: absolute;
-top: 2px;
-left: 63px;
-background-color: rgba(0,0,0,0);
-border-radius: 5px;
-overflow: hidden;
-color: #fee2b0;
-z-index: 20;
+/* Header of all sections in the sheet (equipment, skills, player profile at the top of the sheet) */
+.sectionHeader {
+    background-color: #ddd;
+    width: 100%;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-basis: 0;
+    height: 30px;
 }
 
-#credits:hover{
-width: 500px;
-height: 160px;
-border: 1px #fee2b0 solid;
-border-radius: 15px 5px 5px 5px;
-background-color: rgba(0,0,0,0.8);
-
+/* User for sections displayed in pairs (ex. tools), each taking up half of the column */
+.half {
+    width: 49%;
+}
+.contentContainer.half {
+    width: 49% !important;
 }
 
+#TopContainer { width: 100%; text-align: center; display: flex; }
+#TopColumnL { min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px; }
+#TopColumnM { min-width: 180px; padding-left: 10px; padding-right: 10px; }
+#TopColumnR { width: 265px; float: right; padding-left: 15px; padding-right: 10px; }
+
+.columnContent { min-width: 180px; max-width: 280px; position: relative;}
+
+.columnAlign {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+}
+
+.contentContainer, .specialBlock, .augmentBlock, .skillBlock {
+	width: 100%;
+    text-align: center;
+    background-color: #c3c3c3; border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+} 
+
+.specialBlock { margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom:5px; }
+.augmentBlock { margin-top: 10px; }
+
+
+/* Player name field at the top of the sheet */
+.player { position: absolute; top: 40px; left: 203px; z-index: 4; text-align: left; display: flex; align-items: flex-start; justify-content: flex-start; height: 25px; opacity: 50%; }
+.player div { color: #fee2b0; font-weight: bolder; height: 25px; display: flex; align-items: center; justify-content: center; }
+#playerName { background-color: transparent; text-decoration-line: underline; text-decoration-color: #fee2b0; color: #fee2b0; }
+
+
+/* Setting menu (displayed by hovering over cogwheel in top-right corner) */
+#settings label {
+    color: #fff !important;
+    font-size: 10pt !important;
+}
 #settings {
-width: 27px;
-height: 27px;
-position: absolute;
-top: 2px;
-right: 0px;
-background-color: rgba(0,0,0,0);
-border-radius: 5px;
-overflow: hidden;
-color: #fee2b0;
-font-weight: bold;
-z-index: 90;
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    border: 1px transparent solid;
+    overflow: hidden;
+    color: #fee2b0;
+    font-weight: bold;
+    z-index: 150;
 }
-
+/*#settings {*/
 #settings:hover {
-height: 400px;
-width: 300px;
-border: 1px #fee2b0 solid;
-border-radius: 5px 15px 5px 5px;
-background-color: rgba(0,0,0,0.8);
+    height: auto;
+    width: 530px;
+    border: 1px #fee2b0 solid;
+    border-radius: 5px 15px 5px 5px;
+    background-color: rgba(0,0,0,0.8);
 }
-
-.creditIcon {
-position: absolute;
-z-index: 5;
-display: flex;
-align-items: center;
-justify-content: center;
-top:0;
-left: 0;
-width: 25px;
-height: 25px;
-color: #fee2b0;
-font-size: 20px;
-border-radius: 100px;
-border: 1px #fee2b0 solid;}
-
 .settingsIcon {
-position: absolute;
-z-index: 5;
-display: flex;
-align-items: center;
-justify-content: center;
-top:0;
-right: 0;
-width: 25px;
-height: 25px;
-font-size: 20px;
-border-radius: 100px;
-border: 1px #fee2b0 solid;
-
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    border-radius: 100px;
+    border: 1px #fee2b0 solid;
 }
-
-.statusIcon {
-width: 25px;
-height: 25px;
-}
-
-.ailmentStates .statusIcon {
-width: 35px;
-height: 35px;
-}
-
-.creditText {
-padding: 10px 10px 10px 50px;
-}
-
-.creditText input {
-height: 15px !important;}
-
 .settingsText {
-padding: 35px;
+    width: 220px;
+    padding: 35px;
+    padding-bottom: 25px;
+}
+.settingsText input[type="checkbox"] {
+    position: absolute;
+}
+.settingsText span:not(.settingsTitle) {
+    position: relative;
+    left: 21px;
+}
+.settingsTitle {
+    line-height: 1.8em;
 }
 
-/*
-* {
-text-shadow: #FC0 0px 0 4px;
-}*/
 
-
-#logo {height: 75px; width: 150px; min-width: 150px; margin-bottom: 10px;
-position: absolute;
-top: 0; left: 15px;}
-
-#logo img {width: 150px; min-width: 150px;}
-
-#sheetWrapper {
-margin-top: 70px;
-margin-bottom: 30px;
+/* Credits (displayed by hovering over logo in top-left corner) */
+#credits {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: -2px;
+    left: 60px;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    border: 1px transparent solid;
+    overflow: hidden;
+    color: #fee2b0;
+    z-index: 100;
+}
+#credits:hover{
+    width: 500px;
+    height: 160px;
+    border: 1px #fee2b0 solid;
+    border-radius: 15px 5px 5px 5px;
+    background-color: rgba(0,0,0,0.8);
+}
+.creditIcon {
+    position: absolute;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    color: #fee2b0;
+    font-size: 20px;
+    border-radius: 100px;
+    border: 1px rgba(256,256,256, 0.2) solid;
+}
+.creditText {
+    padding: 10px 10px 10px 50px;
+}
+.creditText input {
+    height: 15px !important;
 }
 
-.titleSheet {
-color: #fee2b0; 
-font-weight: bolder;
-display: flex;
-align-items: center;
-font-size: 15pt;
-height: 20px;
-position: absolute;
-top: 0;
-left: 180px;
-min-width: 600px;
+#logo {
+    height: 75px; width: 150px; min-width: 150px; margin-bottom: 10px;
+    position: absolute;
+    top: 0; left: 15px;
 }
-.sheetform, .sheet_bg {background-color: #1F1F1F !important; position: relative; min-width: 850px;}
-
-.rankTab {
-position: absolute;
-top: 0;
-left: 0;
-border-radius: 5px 5px 0px 0px;
+    #logo img {width: 150px; min-width: 150px;
 }
 
-.sheet-template_Body .textchatcontainer .inlinerollresult {
-background-color: #000 !important;
-font-color: yellow !important;}
 
-   
-    
-    input[type="number"]{border-style: none; padding:none; margin: none; vertical-align: middle; background-color: #ddd;}
-    input[type="text"]{border-style: none; outline-style: none; padding:none; margin: none; vertical-align: middle; background-color: #ddd;}
-    textarea{border-style: none; outline-style: none; padding:none; margin: none; vertical-align: middle; background-color: #ddd; border-left: 2px #ccc solid !important; border-right: 2px #ccc solid !important; max-width: 99% !important;}
-    textarea::-webkit-outer-spin-button,textarea::-webkit-inner-spin-button {-webkit-appearance: none;  margin: 0;}
-    select{border-style: none; outline-style: none; padding:none; margin: none; vertical-align: top; background-color: #ddd;}
-    table{border-collapse:collapse; border-spacing:0;}
-    h3,h4 {text-align: center; vertical-align: middle; color: #fee2b0 !important; font-weight: bolder;}
+/* These do not look like they're used anywhere, but look important enough to keep around */
+.sheet-template_Body{width: 240px; height: 360px; 
+    background-image: url(https://i.imgur.com/TjGTQ7o.png); background-size: 240px 360px; overflow: hidden;}
+.sheet-container{width: 150px; height: 250px; margin-left: 45px; margin-top: 55px; text-shadow: #FC0 0px 0 4px;}
+.sheet-template_type{width: 150px; height: 20px; color: #fee2b0; text-align: center; padding-top: 10px;} 
+.sheet-template_name{width: 150px; height: 20px; color: #fee2b0; text-align: center; font-family: 'HeirofLightBold';} 
+.sheet-template_dice_type{width: 150px; height: 20px; color: #fee2b0; text-align: center;} 
+.sheet-template_dice{width: 150px; height: 60px; color: #000000; text-align: center;} 
+.sheet-template_effect {width: 150px; height: 60px; color: #fee2b0; text-align: center;} 
 
-.viewerName {
-color: #fee2b0 !important;
-font-weight: bolder;
-font-size: 14px !important;}
 
-        .sheet_bg{
-            width: 100%;
-            overflow: hidden;
-            text-align: center;
-            }
-            
-        /* 주사위 */
-	button[type=action].challengeButton {
+/* Default for all icons on the sheet */
+.icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+/* Default styling for different interactive elements */
+textarea, input { outline: none; }
+
+input[type="number"]{border-style: none; vertical-align: middle; background-color: #ddd;}
+input[type="text"]{border-style: none; outline-style: none; vertical-align: middle; background-color: #ddd;}
+input[type="checkbox"]{ width: 21px;  height: 21px; text-align: center; vertical-align: middle; }
+input[type='checkbox'] {
+    accent-color: #fee2b0;
+    opacity: 50%;
+}
+input[type='checkbox']:checked {
+    opacity: 100%;
+}
+
+textarea {
+    border-style: none; 
+    outline-style: none;
+    vertical-align: middle; 
+    background-color: #ddd; 
+    border-left: 2px #ccc solid; 
+    border-right: 2px #ccc solid; 
+    max-width: 97%;
+    width: 100%;
+    max-height: 100px;
+    resize: none;
+}
+
+select {
+    border-style: none;
+    outline-style: none;
+    vertical-align: top; 
+    background-color: #ddd;
+    margin-bottom: 0px;
+}
+
+
+/* Styling for default, dark and light input elements */
+.transpInput {
+    background-color: rgba(0,0,0,0) !important;
+    color: #fff;
+    font-weight: bold;
+}
+.darkInput, .status_effect_value {
+    background-color: rgba(0,0,0,0.2) !important;
+    color: #fff;
+    font-weight: bold;
+}
+.whiteInput {
+    background-color: rgba(256,256,256,0.1) !important;
+    color: #eee;
+    font-weight: bold;
+}
+
+
+/* Genuinely have no clue what this does. May be for having the sheet function better on tablets and mobiles */
+textarea::-webkit-outer-spin-button,textarea::-webkit-inner-spin-button {
+    -webkit-appearance: none;  margin: 0;
+}
+
+
+/* H3 is used for sections on the main character sheet. H4 is used for headers in the Editor tab. viewerName is used for the skill preview */
+h3, h4, .viewerName {
+    vertical-align: middle; 
+    color: #fee2b0 !important; 
+    font-weight: bolder;
+}
+#sheetSettings h3 {
+    background-color: #333;
+    padding: 5px;
+    position: relative;
+}
+
+
+/* Character profile */
+.profileData {
+    text-align: left;
+    display: flex;
+    margin-bottom: 1px;
+}
+.textSection {
+    width: 65px !important;
+    font-size: 8pt !important;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 5px;
+    font-weight: bold;
+    overflow: hidden;
+}
+.CharImage {
+    background-color: #555;
+    right: 0px;
+    margin-top: 0px;
+    top: 62px;
+    border: 2px #555 solid;
+    overflow: hidden;
+    position: absolute;
+    height: 105px;
+    width: 100px;
+}
+.CharImageText {
+    top: 0;
+    right: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.CharImageText {
+    color: #ddd;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#characterDetails .CharImage, #characterDetails .CharImageText {
+    top: 0px;
+    width: 155px;
+    height: 158px;
+}
+.CharMediumNotes {
+    height: 50px !important;
+    margin: 0 !important;
+}
+.CharImage img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    object-fit: contain !important;
+    z-index: 2;
+}
+
+.levelBox {
+    position: absolute;
+    top: 3px;
+    left: auto;
+    right: 0;
+    font-size: 9pt !important;
+    align-items: flex-end;
+    justify-content: flex-end;
+    opacity: 50%;
+    width: 90px;
+}
+.CharAge, .CharHeight, .CharOrigin, .CharJob {
+    max-width: 95px;
+    margin-left: -3px;;
+    text-overflow:ellipsis;
+}
+#CharExtra, #distortExtra {
+    padding-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#CharExtra div {
+    color: #333;
+}
+#CharExtra div, #CharExtra textarea, #distortExtra div, #distortExtra textarea {
+    width: 100% !important;
+}
+#characterDetails .CharSmallNotes {
+    width: 175px !important;
+}
+#DistortionName, #CharacterName {
+    width: 150px !important;
+}
+#characterDetails .CharDetail {
+    width: 330px !important;
+}
+
+.CharBigNotes {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 15px;
+    overflow: hidden;
+    height: 100px !important;
+    padding: 5px;
+}
+
+#CharExtra .textSection, #distortExtra .textSection {
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.CharBigNotes textarea {
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0px !important;
+    padding: 5px !important;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+
+/* EXP counter / level box */
+.levelBox input {
+    height: 25px !important;
+}
+
+
+/* Distortion profile */
+.distortProfile .CharImage {
+    background-color: #111;
+    border: 2px #111 solid;
+    top: 30px;
+}
+.distortionDice .dicerollBlock {
+    width: 85px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.distortProfile {
+    background-color: #111;
+    color: #999 !important;
+}
+.distortProfile .textSection {
+    color: #777;
+}
+.distortProfile .whiteInput, .distortDescInput, .distortEffectInput {
+    color: #bbb;
+    border: none;
+    scrollbar-color: #555 #333 !important;
+    font-weight: normal;
+    background-color: #333 !important;
+}
+.distortEffectInput, .distortDescInput {
+    border-left: 2px #111 solid; 
+    border-right: 2px #111 solid; 
+    border-top: 1px #111 solid;
+    border-bottom: 1px #111 solid;
+}
+.distortProfile ::placeholder {
+    color: #999 !important;
+    opacity: 50%;
+}
+.workPref input {
+    height: 27px !important;
+    width: 27px;
+    font-weight: bold !important;
+    font-size: 14pt;
+    margin: 3px;
+}
+
+
+/* The distort button */
+.distortIcon {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Distort.png');
+}
+.profileHeader {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 5;
+}
+.profileHeader input[type=checkbox] + label {
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+height: 30px !important;
+width: 30px !important;
+display:inline-block;
+padding: 0 0 0 0px;
+opacity: 20%;
+}
+.profileHeader input[type=checkbox]:checked + label {
+    opacity: 30%;
+}
+
+
+/* Distortion observation levels */
+.observationSelect span {
+    font-size: 9px;
+}
+.observationSelect .columnAlign {
+    width: 50%;
+}
+.observationSelect label {
+    color: #888 !important;
+}
+
+
+/* Dice / combat pallette and skill selection */
+.combatPaletteName {
+    max-width: 100px;
+    margin-left: 35px !important;
+    font-size: 9pt;
+}
+.paletteButton input {
+    background-color: transparent !important;
+}
+.paletteDiceContainer {
+    justify-content: flex-end; 
+    align-items: center; 
+    height: 100%; 
+    margin: 0; 
+    position: relative;
+}
+.paletteButton {
+    height: 30px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+}
+.paletteDice {
+    overflow: hidden; 
+    width: 60px; 
+    height: 30px; 
+    position: absolute; 
+    right: 30px !important; 
+    top: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.paletteDice * {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 9.5pt !important;
+    height: 100% !important;
+    width: 17px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center !important;
+    color: #fff !important;
+    font-weight: bold !important;
+}
+.paletteDice .plainText { 
+    opacity: 70%;
+    width: 5px !important;
+}
+.paletteButton .BDice, .paletteButton .NDice {
+    height: 23px !important;
+    width: 23px !important;
+    position: absolute; top: 3px; right: 0px;
+}
+.blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+}
+.skillSelectionElement .icon, .skillN .icon, .skillE .icon {
+    border-radius: 100px;
+    overflow: hidden;
+    height: 30px;
+    width: 30px;
+    border: 1px #fff solid;
+}
+.skillSelectionElement img, .skillIcon, .skillE img {
+    height: 30px;
+    width: 30px;
+}
+.toolSelect {
+    height: 50%; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    width: 100%; 
+    flex-wrap: wrap; 
+    z-index: 90;
+    position: absolute;
+    width: 125%;
+    bottom: 0;
+    margin-left: 15px;
+}
+.declare {
+    height: 23px;
+    padding: 3px;
+    border-radius: 3px;
+    color: #fff !important;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+    font-weight: bold;
+    min-width: 40px;
+}
+.noHover{
+    cursor: text !important;
+    background-color: #ddd !important;
+}
+
+/* Skill / tool selection (newer) */
+.skillSelectionLabel .icon input[type='checkbox'] {
+    display: none !important;
+}
+.skillSelectionElement .skillSelector {
+    opacity: 0% !important;
+}
+.skillhide {
+    overflow: hidden; 
+    position: relative; 
+    border-radius: 100px;
+    border: 1px #555 solid;
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 125px;
+    height: 32px;
+}
+.skillBuffer {
+    max-width: 49%;
+    overflow: hidden;
+}
+.skillSelectionLabel {
+    background-color: transparent;
+    color: #fff;
+    position: absolute; left: 0; width: 100%; top: 0; height: 100%; z-index: 10;
+    border-radius: 100px 100px 100px 100px;
+    opacity: 60%;
+    width: 125px;
+}
+.skillSelectionLabel input {
+    color: #fff;
+}
+.skillSelector:not(:checked) + .skillSelectionLabel:hover {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+.skillSelector:checked ~ .skillSelectionLabel {
+    background-color: #555;
+    opacity: 100%;
+}
+.toolSelectHolder {
+    display: flex; position: relative; width: 30px; height: 30px;
+    border: 1px transparent solid; 
+    border-radius: 5px; 
+    overflow: hidden;
+}
+.toolSelectHolder type-image {
+    position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; z-index: 0;
+}
+.toolSelectBox {
+    text-align: center; 
+    font-weight: bold; 
+    position: absolute; 
+    left: 9px; 
+    top: -5px; 
+    z-index: 2;
+    width: 100%;
+    opacity: 80%;
+}
+.blocker .toolBlocker {
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0));
+    border-radius: 5px;
+}
+.weaponBlocker {
+    background-color: rgba(0,0,0,0.5); 
+    color: #fff; 
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 25;
+}
+.skillSelectionElement {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    width: 100%;
+}
+.skillSelectionElement .skillSelectionName {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    margin-left: 30px !important;
+    margin-top: 3px;
+}
+.paletteOverride {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 1px;
+    z-index: 20;
+}
+.egoDefPalette, .egoEvdPalette, .egoAttPalette {
+    background-color: #000;
+    overflow: hidden;
+}
+.egoDefPalette input, .egoDefPalette .plainText {
+    color: #6d9eeb !important;
+}
+.egoEvdPalette input, .egoEvdPalette .plainText {
+    color: #f1c232 !important;
+}
+.egoAttPalette input, .egoAttPalette .plainText {
+    color: #cc4125 !important;
+}
+.paletteOverride .hide-item {
+    width: 100%;
+}
+.hide-item.tool {
+    width: 45px;
+}
+.weaponSlot {
+    max-height: 35px;
+}
+.weaponSlot .paletteButton, .weaponSlot .hide-toggle-rev, .weaponSlot .hide-item-rev {
+    height: 30px !important;
+    overflow: hidden !important;
+}
+.paletteRange {
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    margin-left: 3px;
+}
+.paletteRange .buffer {
+    width: 100% !important;
+    position: absolute; top: 0; right: 0;
+    width: 30px !important;
+    height: 30px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.weaponPaletteUses {
+    width: 30px; 
+    height: 30px; 
+    position: absolute; 
+    top:0px;  
+    right: 100px;
+    z-index: 24;
+    opacity: 70%;
+}
+.weaponPaletteUses input {
+    color: #fff !important;
+}
+
+
+/* Roll buttons around the character sheet. See Dice Roll Blocks for the roll template input fields */
+button[type=action].challengeButton {
 	font-size: 9pt !important;
 	background-color: transparent !important;
 	height: 25px;
 	overflow:hidden;
 	width: 70px;
 	background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
-        font-weight: bolder;
-        text-align: center;
-	font-decoration: none;
+    font-weight: bolder;
+    text-align: center;
+	text-decoration: none;
 	text-shadow: none;
 	border: 1px rgba(256,256,256, 0.3) solid;
 	box-shadow: none !important;
 	padding: 0px !important;
-
-	}
-
-	button[type=action].challengeButton:hover{
+}
+button[type=action].challengeButton:hover{
 	opacity: 80%;
-	}
+}
+button[type=action].challengeButton::before {
+    display: none;
+}
 
-	button[type=action].challengeButton::before {
-    	display: none;
-	}
-
-        button[type=roll].NDice, button[type=action].NDice{
-            //color: #ff7b00;
-            background-color: #333;
-            font-weight: bolder;
-            font-size: 0px;
-            width: 23px !important;
-            height: 23px !important;
-            margin: 0.0;
-            padding: 0.0em;
-            border: 1px solid #000000;
-            border-radius: 5px;
-background-image: url('https://64.media.tumblr.com/e29849b1dde6de1038565af30099863a/9f44d181165558c5-43/s250x400/cdda3c5ae2f528e9c6048ae6c3e7954503e19d94.pnj');
-background-size: cover;
-background-repeat: no-repeat;
-background-position: center;
-overflow: hidden;
+button[type=roll].NDice, button[type=action].NDice{
+    background-color: #333;
+    font-weight: bolder;
+    font-size: 0px;
+    width: 23px !important;
+    height: 23px !important;
+    margin: 0.0;
+    padding: 0.0em;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/buttondice.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
 	line-height: 100;
 	margin-left: 5px;
 	margin-right: 2px;
-          }
-
-        .player{position: absolute; top: 40px; left: 203px; z-index: 4; text-align: left; display: flex; align-items: flex-start; justify-content: flex-start; height: 25px; opacity: 50%;}
-        .player div {color: #fee2b0; font-weight: bolder; height: 25px; display: flex; align-items: center; justify-content: center;}
-        #playerName {background-color: transparent; text-decoration-line: underline; text-decoration-color: #fee2b0; color: #fee2b0;}
-
-          #TopContainer {width: 100%; text-align: center; display: flex;}
-          #TopColumnL {min-width: 265px; float: left; padding-left: 0px; padding-right: 0px; margin-right: 5px;}
-          #TopColumnM {min-width: 180px; padding-left: 10px; padding-right: 10px;}
-          #TopColumnR {width: 265px; float: right; padding-left: 15px; padding-right: 10px;}
-
-        .columnContent { min-width: 180px; max-width: 280px;}
-
-        .title {
-            height: 30px;
-	    width: 100%;
-            color: #fee2b0 !important;
-        }
-
-	.toggleContainer .title {
-	background-color: #888 !important;
-	}
-
-        .contentContainer, .specialBlock, .augmentBlock, .skillBlock {
-	    width: 100%;
-            text-align: center;
-            background-color: #c3c3c3; border-radius: 3px;
-position: relative;
-overflow: hidden;
-        } 
-
-.specialBlock {margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom:5px;}
-.augmentBlock {margin-top: 10px;}
-
-textarea, input { outline: none; }
-
-.profileData {
-text-align: left;
-display: flex;
-margin-bottom: 1px;
-}
-.textSection {
-width: 65px !important;
-font-size: 8pt !important;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-margin-left: 5px;
-font-weight: bold;
-overflow: hidden;
-}
-
-.CharImage {
-background-color: #555;
-top: 0px;
-right: 0px;
-margin-top: 0px;
-top: 62px;
-border: 2px #555 solid;
-overflow: hidden;
-position: absolute;
-height: 105px;
-width: 100px;}
-
-.CharImageText {
-top: 0;
-right: 0;
-position: absolute;
-height: 100%;
-width: 100%;
-}
-
-.CharImageText {
-color: #ddd;
-z-index: 1;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-#characterDetails .CharImage, #characterDetails .CharImageText {
-top: 0px;
-width: 155px;
-height: 155px;}
-
-.CharImage img {
-position: absolute;
-top: 0;
-right: 0;
-height: 100%;
-object-fit: contain !important;
-z-index: 2;
-}
-
-.CharTopNotes {
-height: 50px !important;
-margin: 0 !important;
-}
-
-.levelBox {
-position: absolute;
-top: 3px;
-left: auto;
-right: 0;
-font-size: 9pt !important;
-align-items: flex-end;
-justify-content: flex-end;
-opacity: 50%;
-}
-
-.levelBox input {
-height: 25px !important;}
-
-	.bars {position: relative; background-color: #111; width: 90px !important; height: 25px; height: 37px; border-radius: 5px;}
-	.Cstat, .Mstat {font-size: 16pt !important; font-weight: bold !important;}	
-        .Cstat{color: #111; background-color: transparent !important; width: 125% !important; height: 100% !important; position: absolute; top: 0; left: 0; z-index: 5; opacity: 80%; padding-left: 5px;}
-        .Mstat{color: rgba(0,0,0,0.5); !important; position: absolute; top: 0; right: 0; width: 50% !important; height: 100% !important; text-align: center; border-radius: 0px 3px 3px 0px;}
-
-        .contentBlock {width: 100%; display: flex; justify-content: start; align-items: start;}
-
-.sectionHeader {
-background-color: #ddd;
-font-color: #fff;
-width: 100%;
-padding-top: 3px;
-padding-bottom: 3px;
-text-align: left;
-overflow: hidden;
-position: relative;
-display: flex;
-align-items: center;
-justify-content: start;
-flex-basis: 0;
-height: 30px;
-}
-
-.skillType {
-margin-top: 8px !important;
-margin-right: 5px;
-height: 25px !important;
-}
-
-.headerName {
-width: 95px;}
-
-.weaponRankBox, .weaponRangeBox{
-color: #fff !important;
-border-radius: 0px 0px 5px 0px;
-padding: 4px;
-height: 25px;
-position: absolute;
-top: 30px;
-left: 0;
-z-index: 5;
-}
-
-.weaponRankBox {
-width: 190px;
-display: flex;
-align-content: flex-start;
-justify-content: flex-start;}
-
-.weaponRangeBox {
-width: 190px;
-border-radius: 0px 0px 0px 5px;
-left: auto;
-right: 0;
-}
-
-.weaponType {
-position: absolute;
-top: 38px;
-left: 70px;
-z-index: 4;
-width: 100px;
-justify-content: start;
-}
-
-.weaponRankBox input, .outfitRank {
-width: 25px;
-text-align: center;
-background-color: rgba(0,0,0,0.2) !important;
-color: #fff;
-font-weight: bold;
-height: 25px !important;
-}
-
-.skillRank {
-position: absolute;
-top: 3px;
-left: 6px;
-z-index: 20;
-width: 30px !important;
-height: 30px !important;
-border-radius: 100px;
-text-shadow: rgba(0,0,0,1) 0px 0px 5px;
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0));
-background-color: rgba(0,0,0,0) !important;
-color: #fff;
-text-align: center;
-font-size: 14px;
-font-weight: bold;}
-
-.outfitRank {
-margin-left: 5px;
-margin-right: 5px;}
-
-.outfitText {
-color: #fff;
-font-weight: bold;
-}
-
-.weaponRangeBox select, .weaponRankBox select{
-width: 70px;
-background-color: rgba(0,0,0,0.2) !important;
-color: #fff;
-font-weight: bold;
-}
-
-.darkInput, .ailmentNum {
-background-color: rgba(0,0,0,0.2) !important;
-color: #fff;
-font-weight: bold;
-}
-
-.transpInput {
-background-color: rgba(0,0,0,0) !important;
-color: #fff;
-font-weight: bold;
-}
-
-.whiteInput {
-background-color: rgba(256,256,256,0.1) !important;
-color: #eee;
-font-weight: bold;
-}
-
-.iconHolder {
-height: 35px;
-width: 45px;
-}
-
-.iconHolder img {
-height: 35px;
-width: 35px;}
-
-.combatPaletteName {
-max-width: 100px;
-margin-left: 35px !important;
-font-size: 9pt;}
-
-.paletteButton input {
-background-color: transparent !important;
-}
-
-.paletteDiceContainer {
-justify-content: flex-end; 
-align-items: center; 
-height: 100%; 
-margin: 0; 
-position: relative;
-}
-
-.paletteButton {
-height: 30px;
-border-radius: 3px;
-display: flex;
-align-items: center;
-justify-content: center;
-margin-bottom: 3px;
 }
 
 
-
-.paletteDice {
-overflow: hidden; 
-width: 60px; 
-height: 30px; 
-position: absolute; 
-right: 30px !important; 
-top: 0px;
-padding-left: 3px;
-padding-right: 3px;
-}
-
-.paletteDice * {
-margin: 0 !important;
-padding: 0 !important;
-font-size: 9.5pt !important;
-height: 100% !important;
-width: 17px !important;
-display: flex;
-align-items: center;
-justify-content: center;
-text-align: center !important;
-color: #fff !important;
-font-weight: bold !important;
-}
-
-.paletteDice .plainText { 
-opacity: 70%;
-width: 5px !important;
-}
-
-.paletteButton .BDice, .paletteButton .NDice {
-height: 23px !important;
-width: 23px !important;
-position: absolute; top: 3px; right: 0px;
-
-}
-
-.columnAlign {
-display: flex;
-align-items: center;
-flex-direction: column;
-justify-content: center;
-color: #fff;
-}
-
-
-        .type-image{width: 40px; height: auto; text-align: center;}
-        input[type="checkbox"]{ width: 21px;  height: 21px; text-align: center; vertical-align: middle;}
-        .combatDice{text-align: center; justify-content: end; align-items: center; margin-right: 3px;}
-        /* 무기 */
-        .weaponContainer {width: 100%; max-width: 400px; display: flex; align-items: start; justify-content: start; position: relative; padding: 5px; flex-wrap: wrap;}
-
-	.weapon_distance, .weapon_type {
-	height: 25px;
-	width: 50% !important;
-	text-align: center;	
-	}
-
-	.weapon_type {width: 90px !important; height: 25px; margin-right: 5px;}
-
-
-        .outfitResistVal {width: 45px; text-align: center;}
-
-
-	#ailmentBlock .contentContainer {
-            	padding-top: 10px;
-		padding-bottom: 10px;
-	}	
-
-	 .status_effect_item {
-	width: 35px;}
-
-       .status_effect_value {width:50px; height: 15px; text-align: center;}
-
-        .sheet-template_Body{width: 240px; height: 360px; 
-            background-image: url(https://i.imgur.com/TjGTQ7o.png); background-size: 240px 360px; overflow: hidden;}
-        .sheet-container{width: 150px; height: 250px; margin-left: 45px; margin-top: 55px; text-shadow: #FC0 0px 0 4px;}
-        .sheet-template_type{width: 150px; height: 20px; color: #fee2b0; text-align: center; padding-top: 10px;} 
-        .sheet-template_name{width: 150px; height: 20px; color: #fee2b0; text-align: center; font-family: 'HeirofLightBold';} 
-        .sheet-template_dice_type{width: 150px; height: 20px; color: #fee2b0; text-align: center;} 
-        .sheet-template_dice{width: 150px; height: 60px; color: #000000; text-align: center;} 
-        .sheet-template_effect{width: 150px; height: 60px; color: #fee2b0; text-align: center;} 
-
+/* Dice roll blocks, aka anything in the format "xdx+x". Not to be confused with the block reaction */
+.combatDice{ text-align: center; justify-content: end; align-items: center; margin-right: 3px; }
 .dicerollBlock {
-display: flex;
-height: 100%;
-justify-content: end;
-width: 90px;
-align-items: center;
-background-color: rgba(0,0,0,0.2);
-border-radius: 5px;
+    display: flex;
+    height: 100%;
+    justify-content: end;
+    width: 90px;
+    align-items: center;
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
 }
-
 .dicerollBlock .plainText {
-width: 8px;  
-color: #fff;
-text-align: center;
-opacity: 70%;
-font-weight: bold;
+    width: 8px;  
+    color: #fff;
+    text-align: center;
+    opacity: 70%;
+    font-weight: bold;
 }
-
-
 .dicerollBlock input{
-width: 25px;
-background-color: transparent;
-color: #fff;
-font-weight: bold;
-font-size: 12pt; 
+    width: 25px;
+    background-color: transparent;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12pt; 
 }
-
 .diceNum {
-text-align: right !important;}
-.diceVal {
-text-align: left !important;}
-
-.template_icon, .weaponIcons, .weapon2_icon {
-width: 35px;
-min-width: 35px;
-height: 35px;
-background-size: contain;
-background-repeat: no-repeat;
-background-position: center;
-overflow-hidden;
-position: relative;
+    text-align: right !important;
+}
+.diceVval {
+    text-align: left !important;
 }
 
-.attackIcon {
-position: absolute;
-top: 0;
-left: 0;
-}
-
-.resIconLeft {
-position: absolute;
-top: 0;
-left: 10px;
-
-}
-
-.resIconRight {
-position: absolute;
-top: 0;
-right: 10px;}
-
-.evadeIcon, .evadeIcon img {
-height: 30px;
-width: 30px;}
-
-.evadeAdjust {
-height: 25px;
-margin-left: 1px;
-}
-
-.rankText {
-display: none;
-position: absolute;
-top: -5px;
-left: 3px;
-}
-
-.attackIcon .type-image, .resIconRight .type-image, .resIconLeft .type-image {
-opacity: 0;}
 
 /* Hide the toggle checkbox */
 .expand-toggle, .hide-toggle, .hide-toggle-rev {
-display: none;}
-
-/* Style the button */
-
+    display: none;
+}
 .expand-btn {
-width: 35px !important;
-height: 35px !important;
-opacity: 30%;
+    width: 35px !important;
+    height: 35px !important;
+    opacity: 30%;
 }
-
+.distortProfile .expand-btn {
+    padding: 0px;
+    margin: 5px;
+    height: 25px !important;
+    width: 25px !important;
+}
 .fade-toggle + div {
-opacity: 100%;
+    opacity: 100%;
 }
-
 .fade-toggle:checked + div {
-opacity: 20%;
+    opacity: 20%;
+}
+.status_effect_value {
+    opacity: 60%;
+}
+.fade-toggle ~ .status_effect_value {
+    opacity: 80%;
+}
+.fade-toggle:checked ~ .status_effect_value {
+    opacity: 40%;
 }
 
-.ailmentNum {
-opacity: 60%;}
 
-.fade-toggle ~ div .ailmentNum {
-opacity: 80%;
+/* Reveal/hide content with checkbox is checked */
+.expand-toggle:checked ~ .expand-btn,
+#weapon1-slash:checked ~ .expand-btn, #weapon1-pierce:checked ~ .expand-btn, #weapon1-blunt:checked ~ .expand-btn,
+#weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
+    opacity: 100% !important;
 }
-
-.fade-toggle:checked ~ div .ailmentNum {
-opacity: 40%;
-}
-
-
-/* Style the button when the checkbox is checked */
-.expand-toggle:checked ~ .expand-btn, #weapon1-slash:checked ~ .expand-btn, #weapon1-pierce:checked ~ .expand-btn, #weapon1-blunt:checked ~ .expand-btn, #weapon2-slash:checked ~ .expand-btn, #weapon2-pierce:checked ~ .expand-btn, #weapon2-blunt:checked ~ .expand-btn {
-opacity: 100% !important;
-}
-
 .expand-toggle:checked ~ .type-image {
-opacity: 100% !important;}
-
+    opacity: 100% !important;
+}
 .hide-item-rev {
-display: inline-block;
+    display: inline-block;
 }
-
 .hide-toggle:checked ~ button, .hide-toggle-rev:checked ~ .hide-item-rev {
-display: none !important;
+    display: none !important;
 }
-
 .hide-item {
-width: 100%;
-display: none;}
-
+    width: 100%;
+    display: none;
+}
 .hide-toggle:checked ~ .hide-item {
-display: inline-block !important;
-}
-
-.tool input[type=checkbox] {
-display:none;
-}
- 
-.portableIcon {
-background-image: url("https://64.media.tumblr.com/4aea178f49d1cb608ef0c13a3a632b40/6abcd4889ffff146-28/s250x400/4913cd23f4dfe82c181f3250d376d0abea44aa0f.pnj");
+    display: inline-block;
 }
 
 
-.reusableIcon {
-background-image: url('https://64.media.tumblr.com/a1a39351f912919b83cf588a00129f04/6abcd4889ffff146-c9/s250x400/2a0f6022aef0dab1204dad00117745102010b76b.pnj'); 
-background-size: contain;
+
+/* General equipment */
+/* ALL of these classes were labelled as "outfitRank" before the reformatting */
+.weaponRank, .outfitRank, .augmentRank, .toolRank, .specialItemRank, .egoRank,
+.characterRank, .characterLevel, .workAmount, .workPref .workPref,
+.disadvCounter, .advCounter,
+.lightCostInput, .egoLightCostInput {
+    width: 25px;
+    text-align: center;
+    background-color: rgba(0,0,0,0.2) !important;
+    color: #fff;
+    font-weight: bold;
+    height: 25px !important;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.weaponContainer, .outfitContainer, .toolContainer, .egoSkillContainer, .skillContainer {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    position: relative;
+    padding: 5px;
+    flex-wrap: wrap;
+}
+.weaponDescriptionInput, .weaponEffectInput, .outfitDescription, .outfitDescriptionInput, .augmentDescriptionInput {
+    position: relative;
+    margin-bottom: 0px;
+}
+/* Icons used for equipment and skills */
+.iconHolder {
+    height: 35px;
+    width: 45px;
+}
+.iconHolder img {
+    height: 35px;
+    width: 35px;
+}
+.type-image{ text-align: center; }
+.icon .type-image, .resIconRight .type-image, .resIconLeft .type-image {
+    opacity: 0;
 }
 
-.tool input[type=checkbox] + label
-{
+
+/* Weapons */
+.weaponIcons {
+    width: 35px;
+    min-width: 35px;
+    height: 35px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    position: relative;
+}
+.weapon_distance, .weapon_type {
+	height: 25px;
+	width: 50% !important;
+	text-align: center;	
+}
+.weapon_type {width: 90px !important; height: 25px; margin-right: 5px;}
+.weaponPropertySelect, .weaponRangeBox{
+    color: #fff !important;
+    border-radius: 0px 0px 5px 0px;
+    padding: 4px;
+    height: 25px;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    z-index: 1;
+}
+.weaponPropertySelect {
+    width: 190px;
+    display: flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+}
+.weaponRangeBox {
+    width: 190px;
+    border-radius: 0px 0px 0px 5px;
+    left: auto;
+    right: 0;
+}
+.weaponRangeBox select, .weaponPropertySelect select{
+    width: 70px;
+    background-color: rgba(0,0,0,0.2) !important;
+    color: #fff;
+    font-weight: bold;
+}
+.weaponDescription, .weaponEffect {
+    width: 50%;
+}
+.weaponDescriptionInput {
+    height: 70px !important;
+}
+.weaponDescription span, .weaponEffect span {
+    height: 10px;
+    padding: 0 !important;
+}
+.descHead {
+    height: 28px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Removes the spacing between weapons if only two weapons are displayed (aka. the hide-toggle for extra weapons is unchecked) */
+.weaponContainer .contentContainer:has(+ .hide-toggle):has(+ :not(:checked)) {
+    margin-top: 0px !important;
+}
+
+
+/* Outfits */
+.outfitDescriptionInput {
+    height: 60px !important;
+}
+.resistanceChart {
+    flex-wrap: wrap;
+    min-width: 50%;
+    max-width: 100%;
+}
+.resistanceChart img, .resistanceChart select {
+    margin: 0; padding: 0;
+}
+.resistanceChart img {
+    height: 30px !important;
+    width: 30px !important;
+}
+.resistanceChart select {
+    width: 55px !important;
+    appearance: none;
+    text-indent: 3px;
+    border: 1px solid #c3c3c3;
+}
+.outfitResistVal { width: 45px; text-align: center; }
+.resIconLeft {
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+.resIconRight {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+.evadeIcon, .evadeIcon img {
+    height: 30px;
+    width: 30px;
+}
+.evadeAdjust {
+    height: 25px;
+    margin-left: 1px;
+}
+
+
+/* Outfit custom resistance display */
+.outfitCustomResistDisplay {
+    width: 300px;
+}
+
+:is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .hide-toggle:checked ~ .hide-item {
+    display: flex;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .editCover .columnAlign {
+    align-items: normal;
+    flex-direction: column;
+    justify-content: start;
+}
+:is(.egoContainer, .distortionContainer) .editCover {
+    padding-bottom: 35px;
+}
+.outfitContainer .editCover > .columnAlign > .rowContainer > .rowContainer, 
+.egoContainer .editCover .columnAlign > .rowContainer > .rowContainer,
+.distortionContainer .editCover > .columnAlign > .rowContainer > .rowContainer,
+.outfitCustomResistDisplay .repitem:has(.hide-toggle:checked)  { width: 82.34px; }
+
+:is(.outfitContainer, .egoContainer) .status_effect_value {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 5px;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .ailmentNum {
+    text-align: center;
+}
+:is(.outfitContainer, .egoContainer, .distortionContainer) .status_effect_item {
+    width: 25px;
+    opacity: 100%;
+}
+.outfitCustomResistDisplay .repcontainer, .egoContainer .repcontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+/* Tools */
+.tool input[type=checkbox] + label {
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -846,216 +1403,379 @@ padding: 0 0 0 0px;
 margin: 0px;
 opacity: 30%;
 }
-
-
-
-.tool input[type=checkbox]:checked + label
-{
-height: 30px !important;
-width: 30px !important;
-display:inline-block;
-padding: 0 0 0 0px;
-margin: 0px;
-display:inline-block;
-opacity: 100%;
+.tool input[type=checkbox] + label:hover {
+opacity: 50%;
+}
+.tool input[type=checkbox]:checked + label {
+    opacity: 100%;
+}
+.toolDescriptionInput {
+    height: 65px !important;
+    margin-bottom: 2px !important;
+}
+.tool input[type=checkbox], .profileHeader input[type=checkbox] {
+    display:none;
+}
+/* Hide spinner on Chromium brosers unless selected/hovered over */
+.toolMaxInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.toolMaxInput:not(:hover):not(:focus)::-webkit-outer-spin-button {
+    display: none;
+}
+/* Hide spinner on Firefox */
+.toolMaxInput {
+    appearance: textfield;
+}
+.toolMaxInput:focus, .toolMaxInput:hover {
+    appearance: auto;
+}
+.portableIcon {
+    background-image: url("https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png");
+}
+/* Also used in a lot of other places*/
+.reusableIcon {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/reuse.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.half {
-width: 49%;}
+
+/* Special items */
+.specialDescriptionInput {
+margin-bottom: 0px !important;
+}
+.specialColumn {
+    color: rgba(0,0,0,0.5);
+    font-weight: bold;
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 0 !important;
+    margin-top: 7px;
+    width: 140px;
+}
+.specialInput {
+    width: 140px;
+}
 
 .toolDescriptionInput {
 height: 65px !important;
 margin-bottom: 2px !important;}
 
 .egoDescInput {
-height: 60px;
-
+    height: 60px;
 }
-
 .egoIdeologyInput {
-width: 100% !important; 
-height: 25px !important; 
-margin-bottom: 3px !important;
+    width: 100% !important; 
+    height: 25px !important; 
+    margin-bottom: 3px !important;
+}
+.egoSpecialLabel span {
+    width: 150px;
+    height: 20px;
+    text-align: left;
+    padding-left: 10px;
+}
+.egoSpecialLabel select {
+    margin-right: 5px;
+}
+.resistanceChart.BLACK select {
+    border: 1px solid #000;
+}
+.egoCheck {
+    position: absolute !important;  
+    top: 10px; 
+    right: 5px; 
+    height: 20px !important; 
+    width: 20px !important; 
 }
 
 
-textarea {
-width: 100%;
-max-height: 100px;
-resize: none;
-border-left: 2px #ddd solid;
-border-right: 2px #ddd solid;
+/* Skills */
+.skillType {
+    width: 100%;
+    margin-right: 5px;
+    height: 25px !important;
+    color: #fff !important;
 }
-
-.weaponDescription, .weaponEffect {
-width: 50%;
+.skillRank {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    z-index: 20;
+    width: 30px;
+    height: 30px !important;
+    border-radius: 100px;
+    text-shadow: rgba(0,0,0,1) 0px 0px 5px;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0));
+    background-color: rgba(0,0,0,0) !important;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
 }
-
-.outfitDescriptionInput {
-height: 60px !important;}
-
-.weaponDescriptionInput, .weaponEffectInput, .outfitDescription, .outfitDescriptionInput, .augmentDescriptionInput {
-position: relative;
-margin-bottom: 0px;
+.lightCost {
+    color: #fee2b0;
+    font-weight: bold;
+    float: right;
 }
-
-.specialDescriptionInput {
-margin-bottom: 0px !important;
+.lightCost input {
+    background-color: #fee2b0 !important;
+    border-radius: 100px;
+    color: rgba(0,0,0,0.5);
 }
-
-.specialColumn {
-color: rgba(0,0,0,0.5);
-font-weight: bold;
-text-align: left;
-padding-left: 5px;
-padding-right: 5px;
-margin-bottom: 0 !important;
-margin-top: 7px;}
-
-.specialColumn select {
-height: 25px !important;
-text-align: left !important;}
-
-
-.weaponDescriptionInput {
-height: 70px !important;}
-
-
-.weaponDescription span, .weaponEffect span {
-height: 10px;
-padding: 0 !important;
+.skillN .icon, .skillE .icon {
+    margin-top: 2px !important;
+    margin-left: 5px !important;
 }
-
-.descHead {
-height: 28px !important;
-display: flex;
-align-items: center;
-justify-content: center;
+.skillN select.whiteInput:focus,
+.settingStyle select.whiteInput:focus {
+    background-color: rgba(0, 0, 0, 0.2) !important;
 }
-
-.resistanceChart {
-flex-wrap: wrap;
-min-width: 50%;
-max-width: 100%;
-}
-
-.ailmentNum {
-width: 50px; text-align: center;
-}
-
-.ailmentStates label {
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
-padding: 3px;
+/* Ego skills */
+.skillE .icon {
+    border: 1px #888 solid !important;
 }
 
 
-#state_Stagger, #state_Panic, #state_Defeat, #state_Immobile {
-display: hidden !important;
+/* Damage helpers */
+.damageHelperContainer b {
+    display: inline-block;
+    max-width: 80%;
+    opacity: 30%;
+    font-size: 9pt;
+}
+.damageHelperContainer input[type=number] {
+    height: 50px !important;
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+    opacity: 80%;
+    margin-top: 3px !important;
+}
+.baseDamageInput {
+    width: 55px !important;
+    border-top: 2px solid #cc4125 !important;
+    border-left: 2px solid #cc4125 !important;
+    border-right: 2px solid #dbb748 !important;
+    border-bottom: 2px solid #dbb748 !important;
+}
+.flatDamage input {
+    width: 45px !important;
+}
+.flatHPInput, .flatSTInput {
+    text-align: left !important;
+    padding-right: 2px;
+    padding-left: 8px;
+}
+.flatHPInput {
+    border: 2px solid #cc4125 !important;
+}
+.flatSTInput {
+    border: 2px solid #dbb748 !important;
+}
+/* Hide spinner on Chromium brosers unless selected/hovered over */
+.flatHPInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.flatHPInput:not(:hover):not(:focus)::-webkit-outer-spin-button,
+.flatSTInput:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.flatSTInput:not(:hover):not(:focus)::-webkit-outer-spin-button {
+    display: none;
+}
+/* Hide spinner on Firefox */
+.flatHPInput, .flatSTInput {
+    appearance: textfield;
+}
+.flatHPInput:focus, .flatHPInput:hover,
+.flatSTInput:focus, .flatSTInput:hover {
+    appearance: auto;
 }
 
-#state_Stagger:checked, #state_Panic:checked, #state_Defeat:checked, #state_Immobile:checked {
-accent-color: #555;
-opacity: 100%;
+.damageHelperType input[type=radio] {
+    display: none;
+}
+.damageHelperType input[type=radio]:not(:checked) + label:hover {
+    opacity: 60% !important;
+    cursor: pointer;
+}
+.damageHelperType input[type=radio]:checked + label {
+    opacity: 100%;
+}
+.damageHelperType input[type=radio] + label {
+    opacity: 30%;
+}
+.damageHelperType label {
+    height: 30px;
+    width: 30px;
+    margin: 0px;
+    padding: 0px;
+}
+/* When no damage type is selected, the button is grayed out and unresponsive to input */
+.applyDamageInput {
+    opacity: 60%;
+    cursor: default;
+    height: 50px; 
+    min-width: 50px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 2px; 
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/damage.png');
+    border-radius: 5px;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+    pointer-events: none;
+}
+.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput {
+    opacity: 100%;
+    pointer-events: auto;
+}
+.damageHelperType:has(input:checked:not([value="None"])) ~ .applyDamage .applyDamageInput:hover {
+    background-color: #000 !important;
+    cursor: pointer;
 }
 
-.resistanceChart select {
-width: 55px !important;
-justify-content: start;
-align-items: center;
 
+
+/* Roll helpers */
+.helpers {
+    margin-left: 1px;
+    margin-right: 1px;
 }
-
+.helpers b, .work b {
+    font-size: 9pt;
+    opacity: 30%;
+}
 .speed {
-height: 30px;
-width: 30px;
-background-image: url('https://64.media.tumblr.com/ec0ed4435607318b7c416dbc1ff9ca40/c221812303dae053-63/s250x400/662dc6d00991d2e670f2cf15e2ae24c04a2cfc51.pnj');
-background-size: cover;
-background-repeat: no-repeat;
-border-radius: 5px;
-background-color: #222 !important;
-border: 1px #111 solid;
-margin: 1px;
+    height: 30px;
+    width: 30px;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Speed.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+    margin: 1px;
 }
-.declare {
-height: 25px;
-padding: 3px;
-border-radius: 3px;
-color: #fff !important;
-background-color: #222 !important;
-border: 1px #111 solid;
-font-weight: bold;
-min-width: 40px;
+.speed:hover,  button[type=roll].NDice:hover, button[type=action].NDice:hover,
+.challengeButton:hover, .declare:hover, .btn:hover, .selectTargetButton:hover, .defenceDice:hover {
+    background-color: #000 !important;
+}
+.expand-toggle:checked ~ .whisper {
+    border: 1px #fee2b0 solid;
+    opacity: 60%;
+}
+.difficultyInput {
+    height: 50px !important; 
+    width: 55px !important; 
+    font-size: 12pt; 
+    text-align: center; 
+    margin-top: 3px !important; 
+    margin-bottom: 0px;
+}
+.updateInput {
+    height: 50px; 
+    width: 50px; 
+    background-size: contain;
+    background-position: center;
+    margin-top: 2px; 
+    margin-right: 3px;
+}
+.utilitybuttons {
+    height: 27px;
+    background-size: contain;
+    background-position: center;
+}
+.disadvCounter {
+    border: 2px #cc4125 solid !important;
+}
+.disadvCheck {
+    height: 30px !important;
+    accent-color: #cc4125 !important;
+}
+.advCounter {
+    border: 2px #93c47d solid !important;
+}
+.advCheck {
+    height: 30px !important;
+    accent-color: #93c47d !important;
+}
+.speedbox {
+    text-align: center;
+    width: 30px !important;
+}
+.sideDice {
+    color: #fff;
+    font-weight: bold;
+}
+.power {
+    text-align: center !important;
+    font-weight: bold;
+    border: 1px #666 solid !important;
+    margin-bottom: 2px !important;
+    width: 40px !important;
 }
 
-.speed:hover,  button[type=roll].NDice:hover, button[type=action].NDice:hover, .challengeButton:hover, .declare:hover {
-background-color: #000 !important;
+
+/* Auto Update Indicator */
+.autoUpdateIndicator {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    opacity: 80%;
+    border-radius: 4px;
+    pointer-events: none;
+}
+.loopEnabledToggle:not(:checked) ~ .autoUpdateIndicator {
+    display: none;
+}
+.loopEnabledToggle:checked ~ .autoUpdateIndicator {
+    border: 4px solid #dbb748;
+}
+.loopEnabledToggle:checked + .loopSearchingToggle:checked ~ .autoUpdateIndicator {
+    border: 4px solid #93c47d;
+}
+.loopEnabledToggle:checked ~ .loopStandbyToggle:checked + .autoUpdateIndicator {
+    border: 4px solid #cc4125;
 }
 
-.resistanceChart img, .resistanceChart select {
-margin: 0; padding: 0;}
 
-.resistanceChart select{
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: '';
-}
 
-.resistanceChart img {
-height: 30px !important;
-width: 30px !important;
-}
-
+/* Character stats */
 .statBlock {
-margin: 3px;
-width: 100px;
-overflow: hidden;
-border-radius: 3px;
+    margin: 3px;
+    width: 100px;
+    overflow: hidden;
+    border-radius: 3px;
 }
-
 .statHeader {
-background-color: #000;
-font-weight: bold;
-padding: 0px;
-padding-bottom: 5px;}
-
+    background-color: #000;
+    font-weight: bold;
+    padding: 0px;
+    padding-bottom: 5px;
+}
 .statImage {
-background-color: #000;
-position: relative;
-overflow: hidden;
-height: 60px;
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
+    height: 60px;
 }
 
 #InstinctStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/5bad35e4301d7c08e6d10eff741e5fc0/3acd4d8f6456be78-fe/s400x600/e08664b0aeb4f51f0252616ce00bcba5f0a146b6.pnj') !important;
-
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Instinct.png');
 }
-
 #WisdomStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/440ed9b4fc565af4e617265c15ae7bf9/3acd4d8f6456be78-c6/s400x600/345f4ff6f275e44fced96da7b35d591225105824.pnj') !important;
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Wisdom.png');
 }
-
 #JusticeStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/26f52ca6f5633de846741cb9cfb0d6b3/3acd4d8f6456be78-6c/s400x600/f1bf22a03d782d7af6cdbc15dae658879d7bcc0c.pnj') !important;
-
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Justice.png');
 }
-
 #CharmStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/bdc307911723f8f02b4d8e5f56e51b49/3acd4d8f6456be78-c1/s400x600/286f06c37e51eb016245148cdd050b0213c4d1be.pnj') !important;
-
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Charm.png');
 }
-
 #InsightStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/187271058cccbcd88e32d2f177764fa0/3acd4d8f6456be78-13/s400x600/aad6740cb1dfdd9d0d2160e215af6adec9a0a5ce.pnj') !important;
-
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Insight.png');
 }
-
 #TemperanceStat {
-background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://64.media.tumblr.com/2dc75b657b162010ba89d515e231c2c8/3acd4d8f6456be78-b7/s400x600/edafa49981732996178a48b9411d4068ec4c8a2c.pnj') !important;
-
+background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/stats/Temperance.png');
 }
 
 .statInput {
@@ -1069,8 +1789,7 @@ background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), ur
 	background-repeat: no-repeat;
 	background-position: bottom-left;
 	background-size: 100%;
-	}
-
+}
 .statInput input {
 	text-align: center;
 	height: 100% !important;
@@ -1078,269 +1797,678 @@ background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)), ur
 	background-color: rgba(0,0,0,0.6) !important;
 	font-weight: bold;
 	font-size: 25pt;
-
-}
-
-.instinct {
-//color: #cc2c2c;
 }
 
 .wisdom {
-color: #d9d9d9 !important; 
+    color: #d9d9d9 !important; 
 }
-
 .justice {
-color: #46bdc6 !important;
+    color: #46bdc6 !important;
 }
-
 .charm {
-color: #9c66c6 !important;
+    color: #9c66c6 !important;
 }
-
 .insight {
-color: #ffe599 !important;
+    color: #ffe599 !important;
 }
-
 .temperance {
-color: #ac609d !important;
-}
-
-.lightCost {
-color: #fee2b0;
-font-weight: bold;
-float: right;
-
-}
-
-.helpers {
-margin-left: 1px;
-margin-right: 1px;}
-
-.helpers b {
-font-size: 9pt;
-opacity: 30%;
+    color: #ac609d !important;
 }
 
 
-.noHover{
- cursor: text !important;
- background-color: #ddd !important;
+/* Status ailments */
+.statusIcon {
+    width: 25px;
+    height: 25px;
+}
+.ailmentStates .statusIcon {
+    width: 35px;
+    height: 35px;
+} 
+.ailmentStates input[type="checkbox"]{
+    display: none;
+}
+.ailmentStates label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3px;
+}
+.ailmentNum {
+    color: #fff;
+    font-weight: bold;
+    background-color: transparent !important;
+    padding-left: 1px;
+    text-align: left;
+}
+.ailmentNumThisTurn {
+    width: 30px !important;
+    padding-right: 0px;
+    position: absolute;
+    left: 3px;
+}
+.ailmentNumNextTurn {
+    color: #999;
+    width: 28px !important;
+    padding-right: 0px;
+    position: absolute;
+    left: 25px;
 }
 
-.lightCost input {
-background-color: #fee2b0 !important;
-border-radius: 100px;
-color: rgba(0,0,0,0.5);
+/* This rule disables the spinner (up and down buttons in number inputs) when not hovering over or selecting an ailment field */
+.ailmentNumNextTurn:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.ailmentNumNextTurn:not(:hover):not(:focus)::-webkit-outer-spin-button,
+.ailmentNumThisTurn:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.ailmentNumThisTurn:not(:hover):not(:focus)::-webkit-outer-spin-button {
+    display: none;
+}
+/* This disables the spinner in Firefox! */
+.ailmentNumNextTurn, .ailmentNumThisTurn {
+    appearance: textfield;
+}
+.ailmentNumNextTurn:focus, .ailmentNumNextTurn:hover,
+.ailmentNumThisTurn:focus, .ailmentNumThisTurn:hover {
+    appearance: auto;
+}
+/* If the next turn field is disabled by a hide toggle (Burn/Bleed/Smoke/Charge individual setting) or by a hide toggle rev (Global setting) the standard field is returned to it's normal styling */
+.status_effect_value .hide-toggle:not(:checked) ~ .ailmentNumThisTurn,
+.status_effect_value .hide-toggle-rev:checked ~ .ailmentNumThisTurn {
+    width: 45.5px !important;
+    padding-right: 4px;
+}
+/* This lengthy boi disables interacting with the next turn field while selecting or hovering over the current turn field (the fields partially overlap) */
+:is(.ailmentNumThisTurn:hover, .ailmentNumThisTurn:focus) +
+:is(.ailmentNumNextTurn) {
+    pointer-events: none;
+    z-index:-1;
+}
+#ailmentBlock .contentContainer {
+    padding-top: 10px;
+	padding-bottom: 10px;
+}
+.status_effect_item {
+	width: 30px;
+}
+.status_effect_value {
+    width: 52px;
+    height: 26px;
+    text-align: center;
+    border-radius: 5px;
+}
+.ailmentButton {
+    background-color: transparent;
+    width: 25px;
 }
 
 
-.skillSelectionElement {
-position: relative;
-
+/* Automated state detection icons */
+#state_Stagger, #state_Panic, #state_Defeat, #state_Immobile {
+    display: hidden !important;
 }
-
-.blocker {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 4;
-}
-
-.skillSelectionElement .attackIcon, .skillN .attackIcon, .skillE .attackIcon {
-border-radius: 100px;
-overflow: hidden;
-height: 30px;
-width: 30px;
-border: 1px #fff solid;
-}
-
-.skillE .attackIcon {
-border: 1px #888 solid !important;}
-
-
-
-.skillSelectionElement img, .skillIcon, .skillE img {
-height: 30px;
-width: 30px;
+#state_Stagger:checked, #state_Panic:checked, #state_Defeat:checked, #state_Immobile:checked {
+    accent-color: #555;
+    opacity: 100%;
 }
 
 
+/* Custom ailments display */
+.customAilText {
+    width: 70px !important;
+    text-align: left;
+    font-weight: bold;
+}
+.ailmentIconSelector, .ailmentIconSelector .icon, .ailmentIconSelector .skillIcon {
+    height: 25px;
+    width: 25px;
+}
+.ailmentCustomDisplay .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+.ailmentCustomDisplay .repcontrol,
+.outfitCustomResistDisplay .repcontrol,
+.conditionalButtonDisplay .repcontrol {
+    display: none;
+}
+.ailmentCustomDisplay .repitem  {
+    display: inline-block !important;
+    flex-basis: 33%;
+    min-width: 83.33px;
+    overflow: hidden;
+}
+.ailmentCustomEditor {
+    height: 280px;
+}
+.ailmentCustomEditor .repcontrol_move, #globalSettings .repcontrol_move {
+    display: none;
+}
+.ailmentCustomEditor .repcontrol { 
+    position: absolute;
+    top: -38px;
+    right: 0px;
+}
+.ailmentCustomDisplay .hide-item-rev {
+    display: flex;
+}
 
 
-.skillNone {}
+/* Game settings and custom ailment editor */
+#globalSettings .repcontrol {
+    display: none;
+}
+#globalSettings ::placeholder {
+    color: #555 !important;
+}
+#globalSettings .transpInput {
+    color: #555 !important;
+}
+.ailmentCustomEditor .repitem { 
+    margin: 5px;
+    flex-basis: 30%;
+    min-width: 250px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #999;
+    overflow: hidden;
+}
+.ailmentCustomEditor .repitem textarea {
+    width: 205px;
+    height: 37px;
+    margin-bottom: 0px;
+}
+.repitemMock {
+    margin: 2px;
+    width: 160px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #999;
+    overflow: hidden;
+}
+.repitemMock .settingStyle select {
+    padding-left: 3px; padding-right: 3px;
+}
+.repitemMock .settingStyle div:has(b) {
+    text-align: right;
+    padding-right: 4px;
+}
+.repIconMock .columnAlign .rowContainer {
+    align-items: flex-end !important;
+}
+.ailmentCustomEditor .itemcontrol {
+    position: absolute;
+    z-index: 10;
+    right: 0px;
+    top: 0px;
+}
+.ailmentCustomEditor .repcontainer, .ailmentCustomEditor .repcontainerMock  {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 280px;
+    overflow: auto;
+    padding-left: 18px;
+}
+.hide-toggle-rev + .settingStyle.hide-item-rev {
+    display: flex;
+}
+/* Displays additional options for the WhenHit ailment trigger */
+div.settingStyle:has(select[name="attr_ailTrigger"] > option[value="WhenHit"]:checked)
+~ div.hide-item {
+    display: flex !important;
+}
 
+
+
+/* Icons! */
 .skillAtt {
-background-image: url('https://64.media.tumblr.com/8ede5bf21930f9d2c4d85da393518565/9e4d26fca3dacaf6-85/s250x400/2888f5e3379f58012dfcfa583d00cc545296e7a5.pnj');
-
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Attack.png');
 }
 .skillDef {
-background-image: url('https://64.media.tumblr.com/fdf082387a5d2a27edb66dc478d81131/9f44d181165558c5-12/s250x400/8e3971a9a0b317c95935e90d6e8511d423d5110c.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png');
 }
-
 .skillEvd {
-background-image: url('https://64.media.tumblr.com/b89c9da811023b70c12c76ac699db016/9f44d181165558c5-ad/s250x400/fc449786a9bcfb8e61c13d74d239b539a9b78bb7.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png');
 }
 .skillAct {
-background-image: url('https://64.media.tumblr.com/4aea178f49d1cb608ef0c13a3a632b40/6abcd4889ffff146-28/s250x400/4913cd23f4dfe82c181f3250d376d0abea44aa0f.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Portable.png');
 }
 .skillMass {
-background-image: url('https://64.media.tumblr.com/3f21376b7209f68ed215662631d1da61/9e4d26fca3dacaf6-f7/s250x400/0aab2d3f33eb8b70037f9de832d6fd90b233efd9.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Wide.png');
+}
+.skillSpecial {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/specialwhite.png');
 }
 
 .luck {
-background-image: url('https://64.media.tumblr.com/5d546cda6055db519918f96e47282795/375c7aaea5998c0c-8f/s250x400/c8b2ec5d6851a1f3d7bea956f0ef0e5e66843d54.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/fortunewhite.png');
 }
-
 .whisper {
-background-image: url('https://64.media.tumblr.com/1ef5be5c50366238558436dafae59576/8bc46af178dead79-2b/s250x400/f0f1e457035154fa6e0747fb353a5969a20dd488.pnj');}
-
-.expand-toggle:checked ~ .whisper {
-border: 1px #fee2b0 solid;
-//background-color: #fee2b0 !important;
-opacity: 60%;
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/whisper.png');}
+.damageResist {
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/DamageResist.png');
+}
+.damageResist-limbus {
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/DamageResist.png');
 }
 
-.next {
-background-image: url('https://64.media.tumblr.com/5cbd3289cdd84a384a1782273530ca15/375c7aaea5998c0c-2e/s250x400/523ea74ad65b9945128d7b38cccf5d396ab4aa56.pnj');
+/* Ailment Icons */
+.burn {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Burn.png');
+}
+.burn-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Burn.png');
+}
+
+.bleed {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bleed.png');
+}
+.bleed-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bleed.png');
+}
+
+.paralysis {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Paralysis.png');
+}
+.paralysis-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Paralysis.png');
+}
+
+.smoke {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Smoke.png');
+}
+.smoke-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Smoke.png');
+}
+
+.charge {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Charge.png');
+}
+.charge-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Charge.png');
+}
+
+.fortune {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fortune.png');
+}
+.fortune-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fortune.png');
+}
+
+.fragile {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Fragile.png');
+}
+.fragile-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fragile.png');
+}
+.fragile-limbus-red {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileRed.png');
+}
+
+.protection {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Protection.png');
+}
+.protection-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Protection.png');
+}
+
+.staggerprotection {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/StaggerProtection.png');
+}
+.staggerprotection-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/limbus/StaggerProtection.png');
+}
+
+.strength {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Strength.png');
+}
+.strength-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Strength.png');
+}
+
+.endurance {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Endurance.png');
+}
+.endurance-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Endurance.png');
+}
+.endurance-limbus-blue {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/EnduranceBlue.png');
+}
+
+.haste {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Haste.png');
+}
+.haste-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Haste.png');
+}
+
+.feeble {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Feeble.png');
+}
+.feeble-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Feeble.png');
+}
+
+.disarm {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Disarm.png');
+}
+.disarm-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Disarm.png');
+}
+.disarm-limbus-blue {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/DisarmBlue.png');
+}
+
+.bind {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Bind.png');
+}
+.bind-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bind.png');
+}
+
+.panic {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Panic.png');
+}
+.panic-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Panic.png');
+}
+.panic-limbus-blue {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PanicBlue.png');
+}
+
+.hostile {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Hostile.png');
+}
+.hostile-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Hostile.png');
+}
+
+.stagger, .fragilestagger {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/FragileStagger.png');
+}
+.stagger-limbus, .fragilestagger-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FragileStagger.png');
+}
+
+.seal {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Seal.png');
+}
+.seal-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Seal.png');
+}
+
+.immobile {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Immobile.png');
+}
+.immobile-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Immobile.png');
+}
+
+.defeat {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/ailments/Defeat.png');
+}
+.defeat-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Defeat.png');
+}
+
+
+/* Limbus specific icons */
+.sinking-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Sinking.png');
+}
+
+.tremor-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Tremor.png');
+}
+.tremorchain-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorChain.png');
+}
+.tremordecay-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorDecay.png');
+}
+.tremordistribution-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorDistribution.png');
+}
+.tremoreverlasting-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorEverlasting.png');
+}
+.tremorfracture-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorFracture.png');
+}
+.tremorreverb-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorReverb.png');
+}
+.tremorsuperposition-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TremorSuperposition.png');
+}
+
+.rupture-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Rupture.png');
+}
+
+.poise-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Poise.png');
+}
+
+.critical-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Critical.png');
+}
+
+.devastation-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Devastation.png');
+}
+
+.ruin-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Ruin.png');
+}
+
+.frostbite-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Frostbite.png');
+}
+
+.nails-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Nails.png');
+}
+
+.poison-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Poison.png');
+}
+
+.aggro-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Aggro.png');
+}
+.bullseye-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Bullseye.png');
+}
+.ammo-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Ammo.png');
+}
+.barrier-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Barrier.png');
+}
+.duel-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Duel.png');
+}
+.fist-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Fist.png');
+}
+.fist-limbus-green {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/FistGreen.png');
+}
+.heal-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Heal.png');
+}
+.kampule-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/KAmpule.png');
+}
+.ttime-limbus  {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/TTime.png');
+}
+.rottingskin-limbus  {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/RottingSkin.png');
+}
+
+.blood  {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.3/ProjectMoonTRPG/images/ailments/Blood.png');
+}
+
+.slashprotection-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/SlashProtection.png');
+}
+.slashfragility-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/SlashFragility.png');
+}
+.pierceprotection-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PierceProtection.png');
+}
+.piercefragility-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/PierceFragility.png');
+}
+.bluntprotection-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/BluntProtection.png');
+}
+.bluntfragility-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/BluntFragility.png');
+}
+
+.wrath-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Wrath.png');
+}
+.lust-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Lust.png');
+}
+.sloth-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Sloth.png');
+}
+.gluttony-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Gluttony.png');
+}
+.gloom-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Gloom.png');
+}
+.pride-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Pride.png');
+}
+.envy-limbus {
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/images/ailments/limbus/Envy.png');
+}
+
+.damageup-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/ailments/limbus/DamageUp.png');
+}
+.damagedown-limbus {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/ailments/limbus/DamageDown.png');
+}
+
+/* Community icons */
+.style-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Style.png');
+}
+.thorns-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Thorns.png');
+}
+.rhythm-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/images/community/Rhythm.png');
+}
+
+.frenzy-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Frenzy.png');
+}
+.shock-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Shock.png');
+}
+.terror-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/Terror.png');
+}
+.staggerdamageup-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/StaggerDamageUp.png');
+}
+.staggerdamagedown-community {
+background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.7/ProjectMoonTRPG/images/community/StaggerDamageDown.png');
+}
+/* Ailment Icons END */
+
+.next { /* Aka update */
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/next.png');
 }
 
 .egoSkills .skillAtt, .egoAtt {
-background-image: url('https://64.media.tumblr.com/52f299c95e9077c5900ee76c74a3c787/d3a9868a872774f2-84/s250x400/62a9096d5f57611981b7fbed65c955b10d04e6f2.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAtt.png');
 background-color: #000;
 }
 
 .egoSkills .skillDef, .egoDef {
-background-image: url('https://64.media.tumblr.com/05a08859d8eed200ef0ccc7412730508/8bc46af178dead79-a9/s250x400/5435ed09dd0260033795a9346de58ad9b337274c.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
 background-color: #000;
 }
 
 .egoSkills .skillEvd, .egoEvd {
-background-image: url('https://64.media.tumblr.com/100f8589858f89e7c1f90642c361715b/d3a9868a872774f2-49/s250x400/3364d5717fc708454dcd381aa03e2dc150672cba.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoEvd.png');
 background-color: #000;
 }
 
 .egoSkills .skillAct, .egoAct {
-background-image: url('https://64.media.tumblr.com/a842f5560de6e8e2303c81b0707c8ed8/d3a9868a872774f2-74/s250x400/20c9fab30f0a95bc81e9ca7353a82abce4bebe2c.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoAct.png');
 background-color: #000;
 }
 
 .egoSpecial {
-background-image: url('https://64.media.tumblr.com/5b62343678de10115c62ba1e04efcdf0/375c7aaea5998c0c-8f/s250x400/625d270a73968270f7d915945e844d8f9c8742bc.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSpecial.png');
 background-color: #000;
 }
 
 .egoSkills .skillMass {
-background-image: url('https://64.media.tumblr.com/828a79032bc314487e8c23f4104f5c4a/d3a9868a872774f2-89/s250x400/47847c6109d58d203d95890dce4f26e9f981c8a8.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoWide.png');
 background-color: #000;
 }
 
 .slash {
-background-image: url('https://64.media.tumblr.com/4a0301c933b477b18658b7dd4c841c56/9f44d181165558c5-f3/s250x400/eec39612d61dfe72dc8ed6a138344d682f8e9b29.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/Slash.png');
 }
 .pierce {
-background-image: url('https://64.media.tumblr.com/42b164c68a0b9eed1da36b1a890643f4/9f44d181165558c5-c0/s250x400/9e96dd6a53ae0119895e2a558f851b4db219ca6f.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/pierce.png');
 }
 .blunt {
-background-image: url('https://64.media.tumblr.com/9800bc62dd54fb31eabf2d8ea6721709/9f44d181165558c5-ab/s250x400/2d7ba1e253f9de1b7c4ac6173f7dd0f5d620f3a9.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/blunt.png');
 }
 .egoSlash {
-background-image: url('https://64.media.tumblr.com/c3f6f34aa16f69a83a9352e4ad5b55db/4f96c1507c227247-13/s250x400/a8e8013b8c25e5c2937b12488f1dcdbf09d6b03e.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoSlash.png');
 }
 .egoPierce {
-background-image: url('https://64.media.tumblr.com/b256ac167231bc27926ca1518529a33b/4f96c1507c227247-a1/s250x400/0fb09f72cd3be82558d18012feaf70a054a56e38.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoPierce.png');
 }
 .egoBlunt {
-background-image: url('https://64.media.tumblr.com/84e858f57dc8cc5ae1ecb96bfe303169/4f96c1507c227247-9a/s250x400/ddc824b9774be7ac87f0b3c695eaba00f8d571c8.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/egoBlunt.png');
 }
 
 .question {
-background-image: url('https://64.media.tumblr.com/7d2b9327ad56b6fb41751f2e8fc8b47b/375c7aaea5998c0c-87/s250x400/d6e3274d791fd217ce36589c818797f3c7511aed.pnj');
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/question.png');
 }
 
 .defend {
-background-image: url('https://64.media.tumblr.com/209dd869df42dba546ffb30f6b7d75bd/8bc46af178dead79-ad/s250x400/054e59a821917185f385fa968dada30025969f8b.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/defend.png');}
 .evade {
-background-image: url('https://64.media.tumblr.com/b89c9da811023b70c12c76ac699db016/9f44d181165558c5-ad/s250x400/fc449786a9bcfb8e61c13d74d239b539a9b78bb7.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/evade.png');}
 
-.slashFatal {
-background-image: url('https://64.media.tumblr.com/35137b61f0e2c1910529a567ca1fa825/ffe5ed6c84d57bcf-53/s250x400/237b23b6c07d897f90f82428be32abd993cec142.pnj');}
-.slashWeak {
-background-image: url('https://64.media.tumblr.com/50848de8fee26787ad4375bd72e7ec80/ffe5ed6c84d57bcf-16/s250x400/ca829a6b037fb8877e23351376fa078a54a04f80.pnj');}
+
 .slashNormal {
-background-image: url('https://64.media.tumblr.com/8e7ae22093ceb1527eaa98dfe1d05b33/ffe5ed6c84d57bcf-4e/s250x400/e001d0a4a3d60f030287e60c2fc92147c53b5685.pnj');}
-.slashEndured {
-background-image: url('https://64.media.tumblr.com/08ec0270ca5ad21934142728a09f8e57/ffe5ed6c84d57bcf-a1/s250x400/85878086d4604245eaeb992e181acaad760b477c.pnj');}
-.slashIneffective {
-background-image: url('https://64.media.tumblr.com/4eb9b593085db46938a266c2b3edc2f8/6664f6d61c7cfed2-1d/s250x400/679506003704b016fe0f1e21abf1fee41c4c1b60.pnj');}
-.slashImmune {
-background-image: url('https://64.media.tumblr.com/72da50d7a06331ad4daf24bd2f3ee1ae/e5b556f9d2c19933-80/s250x400/f6c667dae4c7fb3ef6fba2cd865699115bdc0896.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlash.png');}
 
-.slashFatalSTG {
-background-image: url('https://64.media.tumblr.com/2f08f108417501148883549bb3a545e1/ffe5ed6c84d57bcf-81/s250x400/29e6256646653090e62bfdabf91d6e50f8d6a53f.pnj');}
-.slashWeakSTG {
-background-image: url('https://64.media.tumblr.com/16d06b2b87db0c0799e6a0aeb6311fc3/ffe5ed6c84d57bcf-dc/s250x400/b1273c26849d69ce9db01731a8e03aaf656e925c.pnj');}
 .slashNormalSTG {
-background-image: url('https://64.media.tumblr.com/c33bc5031a91887b414877e5a8251a13/ffe5ed6c84d57bcf-99/s250x400/24ad27b8c8c1e025b4b54b7997b332441445da94.pnj');}
-.slashEnduredSTG {
-background-image: url('https://64.media.tumblr.com/798d757cd7b9d959615819a7aff03b6d/697aaf7641a2c531-fc/s250x400/f720974b47b2bee64ee391a075926bf9be4fc8e4.pnj');}
-.slashIneffectiveSTG {
-background-image: url('https://64.media.tumblr.com/e9fda3d73b0c666dfa39375492b6cbbe/6664f6d61c7cfed2-c8/s250x400/07eb82469cbf0526778d55d68d57cd18dd14388e.pnj');}
-.slashImmuneSTG {
-background-image: url('https://64.media.tumblr.com/cedbb9717633c631fb4472def49ed881/e5b556f9d2c19933-2f/s250x400/3dac676716d1b40c0c46c3bc08134f853fa38fae.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResSlashStg.png');}
 
-.pierceFatal {
-background-image: url('https://64.media.tumblr.com/1aeea5e4b1c10d5cac3a9b7f0edd37c3/46851a82b667f5c6-ed/s250x400/958ab94f6eacef3023bbf1d5c698b8beba16cb72.pnj');}
-.pierceWeak {
-background-image: url('https://64.media.tumblr.com/5a53bbe642054b3028eed9c5b8adcba2/46851a82b667f5c6-57/s250x400/bfb5ddefd7e95e2408830dbaed29887f3edc9d66.pnj');}
 .pierceNormal {
-background-image: url('https://64.media.tumblr.com/ab650fa6270a9618756839749cdf62ad/46851a82b667f5c6-f6/s250x400/339596ff24cf03243428e411558b39f8732739f5.pnj');}
-.pierceEndured {
-background-image: url('https://64.media.tumblr.com/02413eb82b7b8066ecb6aa879f41b711/46851a82b667f5c6-41/s250x400/1a86027019a419e9da76f195910520e65ee13e46.pnj');}
-.pierceIneffective {
-background-image: url('https://64.media.tumblr.com/f144d52b15c43634b5c25b2561fbd047/6664f6d61c7cfed2-d4/s250x400/e1b202b38161e3cd952930a2351ff98371785e2d.pnj');}
-.pierceImmune {
-background-image: url('https://64.media.tumblr.com/695d4a78449f58e047b294e7d11a513c/e5b556f9d2c19933-0d/s250x400/8ab1a0ced91d6f4a121a3fb157d5c5cf5eac4145.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierce.png');}
 
-.pierceFatalSTG {
-background-image: url('https://64.media.tumblr.com/fc6a1ab8c1a0ce051674278f75300050/46851a82b667f5c6-a9/s250x400/e14f642abf917d1e8d62d91c8096e991a252c4d7.pnj');}
-.pierceWeakSTG {
-background-image: url('https://64.media.tumblr.com/620f539f0ca71656d9f9781a181ab740/46851a82b667f5c6-29/s250x400/350ec8d1e28939ffd740ee18f26320e672aa46a5.pnj');}
 .pierceNormalSTG {
-background-image: url('https://64.media.tumblr.com/e4beed54ecdd53d0eeb3e2bcc497732f/46851a82b667f5c6-99/s250x400/336e0f320b832fa7a4439742080a3a0627e3cb3e.pnj');}
-.pierceEnduredSTG {
-background-image: url('https://64.media.tumblr.com/c6429e2ddd0a64d18662ddf9530718b2/697aaf7641a2c531-60/s250x400/4d0c12f2bcdcd180db458816ecef015d10503bd5.pnj');}
-.pierceIneffectiveSTG {
-background-image: url('https://64.media.tumblr.com/482397194ff9ace9c43bc5560b150c8c/6664f6d61c7cfed2-38/s250x400/16ac149322cec10fae2fe7b61a5ef8cfca4ef3f9.pnj');}
-.pierceImmuneSTG {
-background-image: url('https://64.media.tumblr.com/08b7e774f0fca0a581dea1563b83922a/e5b556f9d2c19933-fc/s250x400/84c445b6f16e9e2b9064c90aeb79e3317c5a2769.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResPierceStg.png');}
 
-.bluntFatal {
-background-image: url('https://64.media.tumblr.com/c061ec72dcb81ebbf96c6b28974dc499/60ff90c3e506e5cb-b8/s250x400/5669a2b0ca07ed9db2b3d301d895f3d88c45edf1.pnj');}
-.bluntWeak {
-background-image: url('https://64.media.tumblr.com/b6a28b2d8c4c34e82cdd59fde28cc211/60ff90c3e506e5cb-e9/s250x400/11b045ed2aea70845bace35e471dc057cbd5ade7.pnj');}
 .bluntNormal {
-background-image: url('https://64.media.tumblr.com/beffb5229b4918a9624c0f42771551f6/60ff90c3e506e5cb-c2/s250x400/db4f18aec88566c65328f14a47695716483f62cb.pnj');}
-.bluntEndured {
-background-image: url('https://64.media.tumblr.com/323bd7da37c785eee44384b7d67a20e2/60ff90c3e506e5cb-47/s250x400/e64af49a4ddee451614f9f2018237dccb6b78406.pnj');}
-.bluntIneffective {
-background-image: url('https://64.media.tumblr.com/64ce7e817f2744270f60032af1210664/6664f6d61c7cfed2-cd/s250x400/575e2ba09d89b851a86b5863bfe6e65bc9a1256b.pnj');}
-.bluntImmune {
-background-image: url('https://64.media.tumblr.com/ae8746e7805a9e8dc1823605adba60c0/e5b556f9d2c19933-14/s250x400/e93d44a2ae5e022a9655617e68ee50559f35ea1c.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBlunt.png');}
 
-.bluntFatalSTG {
-background-image: url('https://64.media.tumblr.com/a55c3eac964cdef18591835197f6711c/60ff90c3e506e5cb-a4/s250x400/8a2e6dd28943d0b06257b5653a1940c33413196e.pnj');}
-.bluntWeakSTG {
-background-image: url('https://64.media.tumblr.com/a266a5fdb5cab4bf795f29df29ef62e1/60ff90c3e506e5cb-ee/s250x400/995f155242221d18a4f13c06352b2ab2702740a9.pnj');}
 .bluntNormalSTG {
-background-image: url('https://64.media.tumblr.com/cebb945b9418455b48822f2cc8526ca4/60ff90c3e506e5cb-7b/s250x400/81c7141983560220f3edf2193d923fc3acb42c76.pnj');}
-.bluntEnduredSTG {
-background-image: url('https://64.media.tumblr.com/bd029cd9995cb282d7f3b7e33a7f1fb3/697aaf7641a2c531-4b/s250x400/10b1fce83d6117a8213f55e430951ffefd50aaeb.pnj');}
-.bluntIneffectiveSTG {
-background-image: url('https://64.media.tumblr.com/9733fc75a7a3ef410f18587fcb447934/6664f6d61c7cfed2-9f/s250x400/78bad27cc59c689d2fefb8eb7e311e12199cb806.pnj');}
-.bluntImmuneSTG {
-background-image: url('https://64.media.tumblr.com/9dec454564b8a29c76e218a022eba2a4/e5b556f9d2c19933-90/s250x400/a9c5de91cad9adc8145dba35f080ed9ba89b743e.pnj');}
+background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/def/ResBluntStg.png');}
 
 .skillIcon, .typeIcon, .resistIcon {
 background-size: contain;
@@ -1356,164 +2484,312 @@ height: 30px;}
 width: 35px;
 height: 35px;}
 
-input[type='checkbox'] {
-accent-color: #fee2b0;
-opacity: 50%;
-}
 
-input[type='checkbox']:checked {
-opacity: 100%;
-}
-
-.skillSelectionLabel .attackIcon input[type='checkbox'] {
-display: none !important;
-}
-
-.skillSelectionElement .skillSelector {
-opacity: 0% !important;
-}
-
-.skillhide {
-overflow: hidden; 
-position: relative; 
-border-radius: 100px;
-border: 1px #555 solid;
-margin-left: 2px;
-margin-right: 2px;
-width: 125px;
-height: 32px;
-}
-
-.skillBuffer {
-max-width: 49%;
-overflow: hidden;}
-
-.skillSelectionLabel {
-background-color: transparent;
-color: #fff;
- position: absolute; left: 0; width: 100%; top: 0; height: 100%; z-index: 10;
-border-radius: 100px 100px 100px 100px;
-opacity: 60%;
-width: 125px;
-}
-
-.skillSelectionLabel input {
-color: #fff !important;
-}
-
-.skillSelector:checked ~ .skillSelectionLabel {
-background-color: #555;
-opacity: 100%;
-}
-
-.skillSelector:checked ~ .skillSelectionLabel {
-background-color: #555;
-opacity: 100%;
-}
-
-.helperText:checked ~ .helperTextContainer .helpers b {
-display: none !important;
-}
-
-
-.skillSelectionElement {
-position: relative;
-display: flex;
-align-items: center;
-height: 32px;
-width: 100%;
-
-}
-
-.skillSelectionElement .skillSelectionName {
-width: 100%;
-height: 100%;
-font-weight: bold;
-margin-left: 30px !important;
-margin-top: 3px;
-}
-
-.skillN .attackIcon, .skillE .attackIcon {
-margin-top: 2px !important;
-margin-left: 5px !important;
-}
-
-.title, body, .toggleButtons {
-min-width: 800px;
-max-width: 850px;}
-
-#infoSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#infoSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body {
-    display: none;
-}
-
+/* This... looks like it's supposed to be some tab changing CSS wizardry? It isn't in use currently */
+#infoSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body, 
+#infoSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
 #skillSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#skillSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body {
-    display: none;
-}
-
+#skillSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
 #equipmentSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
-#equipmentSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body {
+#equipmentSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
+#exportSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
+#exportSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body,
+#editSectionToggle.sheet-toggle-show:not(:checked) ~ div.sheet-body,
+#editSectionToggle.sheet-toggle-hide:checked ~ div.sheet-body {
     display: none;
 }
 
-.skillType {
-color: #fff !important;}
 
-.CharAge, .CharHeight, .CharOrigin, .CharJob {
-max-width: 95px;
-margin-left: -3px;;
-text-overflow:ellipsis;
-}
-
+/* Rolltemplate styling */
 .sheet-rolltemplate-message div {
-color: #fff !important;
-background-color: rgba(0,0,0,0.5) !important;
+    color: #fff !important;
+    background-color: rgba(0,0,0,0.5) !important;
 }
 
-.difficultyInput {
-height: 50px !important; 
-width: 55px !important; 
-font-size: 12pt; 
-text-align: center; 
-margin-top: 3px !important; 
-margin-bottom: 0px;
+/* Damage helper message styling*/
+.sheet-rolltemplate-damagecalculation img {
+    height: 25px;
+    width: 25px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer {
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    position: relative;
 }
 
-.updateInput {
-height: 50px; 
-width: 50px; 
-background-size: contain;
-background-position: center;
-margin-top: 2px; 
-margin-right: 3px;
+
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div {
+    min-height: 25px;
+    line-height: 20px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) div {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child {
+    position: absolute;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer div > img:first-child + div {
+    margin-left: 25px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:nth-child(n+2) {
+    border-bottom: 1px solid #555;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer > div:first-child {
+    height: 30px;
+    border: 2px solid #000;
+}
+.sheet-rolltemplate-damagecalculation .userscript-damageDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    text-align: center;
+    width: 64%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-baseDamage, .sheet-rolltemplate-damagecalculation .userscript-flatModifier {
+    padding-left: 9px;
+    line-height: 25px !important;
+}
+.sheet-rolltemplate-damagecalculation .userscript-updateStatDisplay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 35%;
+    background-color: #000;
+    border: 2px solid #000 !important;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 16px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-calculationContainer:has(div:only-child) {
+    display: none;
+}
+.sheet-rolltemplate-damagecalculation .userscript-hpCalculationContainer div:first-child { color: #cc4125; background-color: #111; }
+.sheet-rolltemplate-damagecalculation .userscript-stCalculationContainer div:first-child { color: #f1c232; background-color: #111; }
+.sheet-rolltemplate-damagecalculation .userscript-spCalculationContainer div:first-child { color: #6d9eeb; background-color: #111; }
+
+
+/* Description and effect container styling */
+.sheet-rolltemplate-baseRoll .userscript-descriptionContainer {
+    width: 50%;
+    height: auto;
+    float: left;
+}
+/* If only one description is present, expand its width */
+.sheet-rolltemplate-baseRoll :nth-child(1 of div.userscript-descriptionContainer):not(:has(+ .userscript-descriptionContainer)) {
+    width: 100% !important;
+}
+.sheet-rolltemplate-baseRoll .userscript-effectDescription {
+    max-height: 70px;
+    overflow: auto;
+    border: 1px #555 solid;
+    padding-bottom: 1px;
 }
 
-.utilitybuttons {
-height: 27px;
-background-size: contain;
-background-position: center;
+
+/* AutoEffect message styling */
+/* Yes, you have to write them all out like this... */
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectImage,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectImage {
+    height: 25px;
+    width: 25px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer a,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer a,
+.sheet-rolltemplate-message .userscript-autoeffectContainer a,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer a {
+    pointer-events: none;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer,
+.sheet-rolltemplate-message .userscript-autoeffectContainer,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    position: relative;
+}
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer {
+    float: left;
+    width: 99.3%;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry {
+    position: relative;
+    padding-left: 25px;
+    min-height: 25px;
+    line-height: 20px;
+    border-bottom: 1px solid #555;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-message .userscript-autoeffectContainer .userscript-autoEffectTitle,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer .userscript-autoEffectTitle {
+    width: calc(100% - 40px);
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry div,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry div,
+.sheet-rolltemplate-message .userscript-autoeffectEntryn div,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry div{
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectEntry:has(div:first-child),
+.sheet-rolltemplate-autoeffect .userscript-autoeffectEntry:has(div:first-child),
+.sheet-rolltemplate-message .userscript-autoeffectEntryn:has(div:first-child),
+.sheet-rolltemplate-baseRoll .userscript-autoeffectEntry:has(div:first-child){
+    padding-left: 9px;
+}
+.sheet-rolltemplate-damagecalculation .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-autoeffect .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-message .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child,
+.sheet-rolltemplate-baseRoll .userscript-autoeffectContainer > .userscript-autoeffectEntry > img:first-child {
+    position: absolute;
+    left: 0;
+}
+/* Collapseable section styling */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection,
+.sheet-rolltemplate-message .userscript-collapseSection,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection {
+    max-height: 29px;
+    transition: max-height 10s 0.1s ease-in;
+    overflow: hidden;
+}
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover,
+.sheet-rolltemplate-message .userscript-collapseSection:hover,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover {
+    max-height: 500px;
+    transition: max-height 3s 0.1s ease;
+}
+/* Removed mergin for every section but the first */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection ~ .userscript-collapseSection,
+.sheet-rolltemplate-message .userscript-collapseSection ~ .userscript-collapseSection,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection ~ .userscript-collapseSection {
+    margin-top: 0px;
+}
+/* Create arrow to indicate if the section is collapsed or expanded */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection .userscript-arrow,
+.sheet-rolltemplate-message .userscript-collapseSection .userscript-arrow,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection .userscript-arrow {
+    position: absolute; top: 10px; right: 10px;   
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 10px solid #fff;
+    opacity: 50%;
+    transition: opacity 10s 0.1s ease;
+}
+/* Create arrow to indicate if the section is collapsed or expanded */
+.sheet-rolltemplate-damagecalculation .userscript-collapseSection:hover .userscript-arrow,
+.sheet-rolltemplate-message .userscript-collapseSection:hover .userscript-arrow,
+.sheet-rolltemplate-baseRoll .userscript-collapseSection:hover .userscript-arrow {
+    opacity: 0%;
+    transition: opacity 0.6s 0.1s ease;
 }
 
-.disadvCounter {
-border: 2px #cc4125 solid !important;}
 
-.disadvCheck {
-height: 30px !important;
-accent-color: #cc4125 !important;
+/* Action buttons below chat messages */
+.sheet-rolltemplate-actionbuttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    width: 100%;
 }
-.advCounter {
-border: 2px #93c47d solid !important;
+.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer {
+    background-color: #454545;
+    position: relative;
+    top: -10px;
+    left: 2px;
+    padding: 5px;
+    margin: -2px;
+    border-radius: 5px;
+    width: calc(50% - 8px);
 }
-.advCheck {
-height: 30px !important;
-accent-color: #93c47d !important;
+.sheet-rolltemplate-actionbuttons .sheet-button {
+    height: 100%;
+    background-color: #6f8b60;
+    border-radius: 10px;
+}
+.sheet-rolltemplate-actionbuttons .sheet-actionButtonContainer:not(:has(div)) {
+    display: none;
+}
+.sheet-rolltemplate-actionbuttons .sheet-button a {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px;
+    border-radius: 10px;
+    width: 76%;
+}
+.sheet-rolltemplate-actionbuttons .sheet-button a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.sheet-rolltemplate-actionbuttons img {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+}
+.sheet-rolltemplate-actionbuttons a:has(img) {
+    position:absolute;
+    pointer-events: none;
+    background-color: rgba(0,0,0,0) !important;
+    padding: 4px;
+    z-index: 1;
+}
+.sheet-rolltemplate-actionbuttons a:has(img) + a {
+    padding-left: 25px !important;
 }
 
+
+/* Chat avatar fix */
+/* For the love of all that is holy do not change these styling rules. I cannot describe to you how long it took to get them right */
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlocker,
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonBlockerWhisper {
+    position: absolute;
+    height: calc(100% + 16px);
+    margin-top: -60px;
+    background-color: #d3e5f5;
+    top: 25px;
+    left: -50px;
+    right: -50px;
+}
+.sheet-rolltemplate-darkmode .sheet-actionButtonBlocker {
+    background-color: var(--surface-dark2) !important;
+}
+.sheet-rolltemplate-darkmode .sheet-actionButtonBlockerWhisper {
+    background-color: var(--surface-dark-gamecard) !important;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child):has(:nth-child(3):not(:empty)) {
+    position: relative;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child) {
+    position: relative;
+    margin-bottom: -25px;
+}
+.sheet-rolltemplate-actionbuttons:not(:first-child) .sheet-actionButtonContainer {
+    top: -35px;
+}
+
+
+/* Alright here's the actual sheet tab switching functionality */
 .toggleButtons {
 width: 100%;
 height: 60px;
 min-width: 800px;
+max-width: 860px;
 display: flex;
 align-items: center;
 justify-content: center;
@@ -1521,298 +2797,729 @@ justify-content: center;
 
 .sheet-equipment,
 .sheet-skills,
-.sheet-details {
+.sheet-details,
+.sheet-edit,
+.sheet-export {
     display: none;
 }
 
 /* show the selected tab */
 .sheet-tabstoggle[value="equipment"] ~ div.sheet-equipment,
 .sheet-tabstoggle[value="skills"] ~ div.sheet-skills,
-.sheet-tabstoggle[value="details"] ~ div.sheet-details {
+.sheet-tabstoggle[value="details"] ~ div.sheet-details,
+.sheet-tabstoggle[value="export"] ~ div.sheet-export,
+.sheet-tabstoggle[value="edit"] ~ div.sheet-edit {
     display: block;
 }
 
-.sheet-tabstoggle[value="equipment"] ~ div #equipmentButton, .sheet-tabstoggle[value="skills"] ~ div #skillsButton, .sheet-tabstoggle[value="details"] ~ div #detailsButton {
-color: #fee2b0 !important;
-background-color: #333;
+.sheet-tabstoggle[value="equipment"] ~ div #equipmentButton, .sheet-tabstoggle[value="skills"] ~ div #skillsButton, .sheet-tabstoggle[value="details"] ~ div #detailsButton, .sheet-tabstoggle[value="export"] ~ div #exportButton, .sheet-tabstoggle[value="edit"] ~ div #editButton {
+    color: #fee2b0 !important;
+    background-color: #333;
 }
 
 .toggleButtons button {
-height: 100%;
-width: 100%;
-display: flex;
-font-size: 16pt;
-font-weight: bold;
-border-radius: 5px 5px 0px 0px;
-align-items: center;
-justify-content: center;
-background-color: #111;
-color: #888 !important;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    font-size: 16pt;
+    font-weight: bold;
+    border-radius: 5px 5px 0px 0px;
+    align-items: center;
+    justify-content: center;
+    background-color: #111;
+    color: #888 !important;
 }
 
-.speedbox {
-text-align: center;
-width: 30px !important;
+
+/* Combat options */
+.combatOptionsContainer {
+    margin-bottom: 6px;
+}
+.combatOptionsContainer b {
+    display: inline-block;
+}
+.combatOptionsContainer .tokenName {
+    display: inline-block;
+    width: 100%;
+    height: 12px !important;
+    padding: 0;
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: center;
+    opacity: 30%;
+    color: #fff;
+    background-color: transparent;
+    pointer-events: none;
+}
+.combatOptionsContainer .tokenName::placeholder {
+    opacity: 100% !important;
+}
+.combatOptionsContainer :is(b, .tokenName) {
+    margin-bottom: 2px; 
+}
+.combatOptionsContainer :is(img[src=""], img:not([src])) {
+    display: none;
+}
+.combatOptionsContainer :is(img[src=""], img:not([src])) + input[type="number"] {
+    display: none;
+}
+.combatOptionsContainer .bars {
+    height: 24px;
+    background-color: #222;
+}
+.combatOptionsContainer .bars.bars:not(:first-child) {
+    margin-left: 2px;
+}
+.combatOptionsContainer .Cstat {
+    width: 100% !important;
+    font-size: 12pt;
+    pointer-events: none;
+}
+.combatOptionsContainer .Cstat::-webkit-inner-spin-button,
+.combatOptionsContainer .Cstat::-webkit-outer-spin-button {
+    display: none;
+}
+/* This disables the spinner in Firefox */
+.combatOptionsContainer .Cstat {
+    appearance: textfield;
+}
+.hide-toggle-rev ~ .combatOptionsContainer.hide-item-rev {
+    display: flex;
+}
+.selectTargetButton, .targetToken {
+    height: 44px; 
+    width: 44px;
+}
+.selectTargetButton {
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+}
+.targetToken {
+    opacity: 0.5;
+}
+.selectTargetIcon {
+    height: 50px; 
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.2/ProjectMoonTRPG/imagesResized/icons/target.png');
+}
+/* Last defence dice display */
+.defenceDice {
+    height: 52px !important;
+    width: 52px !important;
+    padding: 4px;
+    font-size: 20px;
+    text-shadow: #000 0 0 3px, #000 0 0 10px;
+    text-align: center;
+    border: 1px #111 solid !important;
+    border-radius: 5px;
+    background-color: #222 !important;
+    background-size: 45px;
+    background-position: 45% 45%;
+    background-repeat: no-repeat;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/Release-v0.6.2/ProjectMoonTRPG/imagesResized/icons/egoDef.png');
 }
 
-.sideDice {
-color: #fff;
-font-weight: bold;
+.defenceDice:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.defenceDice:not(:hover):not(:focus)::-webkit-outer-spin-button {
+    display: none;
+}
+/* This disables the spinner in Firefox */
+.defenceDice {
+    appearance: textfield;
+}
+.defenceDice:focus, .defenceDice:hover {
+    appearance: auto;
 }
 
-.power {
-text-align: center !important;
-font-weight: bold;
-border: 1px #666 solid !important;
-margin-bottom: 2px !important;
-width: 40px !important;
+
+/* Generic token mode display */
+.genericTokenContainer {
+    position: fixed;
+    bottom: 0px;
+    left: 0%;
+    width: calc(99% - 14px);
+    z-index: 999;
+    padding: 5px;
+    background-color: #1F1F1F !important;
+}
+#genericTokenModeToggle + .genericTokenContainer {
+    display: none !important;
+}
+#genericTokenModeToggle:checked + .genericTokenContainer {
+    display: flex !important;
+}
+.genericTokenInstanceContainer {
+    resize: vertical;
+    max-height: 450px;
+    min-height: 150px;
+    overflow-y: auto;
+}
+.genericTokenInstanceContainer .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: calc(99% - 64px);
+}
+.genericTokenInstanceContainer .repcontrol { 
+    display: none;
+}
+.genericTokenInstanceContainer .hide-toggle-rev + .hide-item-rev {
+    display: inline-block !important;
+}
+.genericTokenInstanceContainer .hide-toggle-rev:checked + .hide-item-rev {
+    display: none !important;
 }
 
-#characterExtra {
-padding-top: 10px;
+/* Generic token controls */
+.genericTokenSelectButton {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    height: 20%;
+    width: calc(100% + 2px);
+    background-color: transparent;
+}
+.genericToken_controls {
+    justify-content: space-around;
+    width: 50px;
+    height: 130px;
+    margin: 10px 5px 10px 5px;
+}
+.genericToken_controls button {
+    background-color: transparent;
 }
 
-#characterExtra div {
-color: #333;
+/* Individual generic token*/
+.genericToken {
+    height: 130px;
+    width: 120px;
+    margin: 5px;
+}
+.style-toggle:checked + .genericToken {
+    height: 126px;
+    border: 2px solid #666;
+}
+.genericToken .tokenName {
+    background-color: transparent;
+    color: #999;
+    width: 100%;
+    padding: 0;
+    pointer-events: none;
+    overflow: ellipsis;
+}
+.genericToken .bars {
+    width: 100px !important;
+    height: 20px;
+}
+.genericToken .bars:not(:first-child) {
+    margin-top: 2px;
+}
+.genericToken :is(.Cstat, .Mstat, .Tstat) {
+    font-size: 12pt;
+}
+.genericToken .Mstat{
+    width: 33% !important;
+    padding: 4px 2px 4px 2px;
+}
+.genericToken .Tstat {
+    width: auto !important;
+    left: 30px;
+    z-index: 3;
+}
+.tokenAilment, .targetAilment {
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+}
+:is(.tokenAilment, .targetAilment) img {
+    position: relative;
+    opacity: 90%;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+:is(.tokenAilment, .targetAilment) input[type="number"] {
+    position: relative;
+    top: -25px;
+    left: -2px;
+    background-color: transparent;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: #000 0 0 3px, #000 0 0 5px, #000 0 0 10px;
+    padding-left: 2px;
+    text-align: center;
+    z-index: 2;
+}
+.targetAilment {
+    pointer-events: none;
+}
+.tokenAilment input[type="number"]:not(:hover):not(:focus)::-webkit-inner-spin-button,
+.tokenAilment input[type="number"]:not(:hover):not(:focus)::-webkit-outer-spin-button {
+    display: none;
+}
+.tokenAilment input[type="number"]:hover, :hover::-webkit-inner-spin-button,
+.tokenAilment input[type="number"]:hover, :hover::-webkit-outer-spin-button,
+.tokenAilment input[type="number"]:focus, :hover::-webkit-inner-spin-button,
+.tokenAilment input[type="number"]:focus, :hover::-webkit-outer-spin-button {
+    z-index: 3;
+}
+.tokenAilment input[type="number"] {
+    appearance: textfield;
+}
+.tokenAilment input[type="number"]:not(:hover):not(:focus) {
+    width: 31px !important;
+}
+.tokenAilment input[type="number"]:focus, .tokenAilment input[type="number"]:hover {
+    appearance: auto;
+    width: 3.5em;
 }
 
-#characterExtra div, #characterExtra textarea {
-width: 100% !important;
 
+/* AutoScript Editor */
+.autoscriptEditorContainer {
+    position: fixed;
+    top: 0px;
+    left: 2%;
+    width: 95%;
+    z-index: 999;
+}
+#autoScriptEditorToggle + .autoscriptEditorContainer {
+    display:none !important;
+}
+#autoScriptEditorToggle:checked + .autoscriptEditorContainer {
+    display:block !important;
+}
+.autoScriptEditorTarget {
+    position: absolute;
+    top: 2px;
+    left: 145px;
+    color: #999;
+    pointer-events: none
+}
+.autoscriptEditorContainer label {
+    color: #B3B3B3;
+}
+#autoScriptInput {
+    resize: vertical;
+    overflow: auto;
+    min-height:60px;
+    height: 120px;
+    max-height: 500px;
 }
 
-#characterDetails .CharName {
-max-width: 170px;
+
+/* AutoEffect conditional buttons */
+.conditionalButtonDisplay .repcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.conditionalButtonDisplay .repitem {
+    width: 49%;
+}
+.conditionalButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 12px;
+    border: 1px #555 solid;
+    background-color: #85a874;
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 100%;
+    height: 30px;
+    z-index: 0;
+}
+.conditionalButtonAct {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    width: calc(100% + 2px);
+    height: 100%;
+    border-radius: 12px;
+    background-color: #000;
+    opacity: 0.2;
+    z-index: 1;
+}
+.conditionalButtonAct:hover {
+    opacity: 0;
+}
+.conditionalButtonName {
+    position: absolute;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    left: 0;
+    max-width: calc(95% - 34px);
+    padding-left: 34px;
+    font-size: 9pt;
+    line-height: 1em;
+    max-height: 2em;
+    font-weight: bold;
+    color: #fff;
+    z-index: 3;
+}
+.conditionalButtonIcon {
+    position: absolute;
+    pointer-events: none;
+    left: 1px;
+    width: 30px;
+    height: 30px;
+    z-index: 3;
+    border-radius: 12px 0 0 12px;
+    border: 1px #555 solid;
 }
 
-#characterDetails .CharResidence {
-width: 330px !important;
+
+/* Assorted buttons */
+.shareButton, .editButton, .autoScriptButton, .closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault, .copyButton, .displayButton, .lockButton {
+    position: absolute;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.bigbox {
-display: flex;
-align-items: center;
-flex-direction: column;
-margin-left: 15px;
-overflow: hidden;
-height: 100px !important;
-padding: 5px;
+:is(.shareButton, .editButton, .autoScriptButton, .copyButton, .displayButton, .lockButton):hover {
+    background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
-#characterExtra .textSection {
-margin-left: 10px;
-margin-top: 5px;
-margin-bottom: 5px;}
 
-.bigbox textarea {
-height: 100% !important;
-width: 100% !important;
-margin: 0px !important;
-padding: 5px !important;
-display: inline-block;
-border-radius: 5px;
+:is(.closeAutoScriptButton, .saveAutoScriptButton, .styleAutoScriptButton, .styleAutoScriptDefault):hover {
+    background-color: #000 !important;
 }
 
 .shareButton {
-position: absolute;
-bottom: 5px;
-right: 5px;
-z-index: 20;
-height: 25px;
-width: 25px;
-border-radius: 5px;
-background-image: url('https://64.media.tumblr.com/fee8b09c2813515715e07b6117c8f97d/4f96c1507c227247-ed/s250x400/2365505014989c6f9fda6f633324d04e4a7725b8.pnj');
-background-size: contain;
-background-position: center;
-background-repeat: no-repeat;
+    bottom: 5px;
+    right: 5px;
+    z-index: 20;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/share.png');
+    
 }
 
-.paletteOverride {
-position: absolute; 
-top: 0; 
-left: 0; 
-width: 100%;
-height: 1px;
-z-index: 20;}
-
-.egoDefPalette, .egoEvdPalette, .egoAttPalette {
-background-color: #000;
-overflow: hidden;
+.editButton {
+    bottom: 5px;
+    right: 35px;
+    z-index: 20;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/edit.png');
 }
 
-.egoDefPalette input, .egoDefPalette .plainText {
-color: #6d9eeb !important;
-//color: #7397d1 !important; 
+.autoScriptButton {
+    bottom: 5px;
+    right: 65px;
+    z-index: 20;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/script.png');
 }
 
-.egoEvdPalette input, .egoEvdPalette .plainText {
-color: #f1c232 !important;
-//color: #dbb748 !important; 
+.closeAutoScriptButton {
+    top: 4px;
+    right: 6px;
+    z-index: 20;
+    background-image: url('https://raw.githubusercontent.com/beautidemise/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/exit.png');
 }
 
-.egoAttPalette input, .egoAttPalette .plainText {
-color: #cc4125 !important;
-//color: #c25944 !important; 
+.saveAutoScriptButton {
+    top: 4px;
+    right: 36px;
+    z-index: 20;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: auto;
 }
 
-.paletteOverride .hide-item {
-width: 100%;}
-
-.hide-item.tool {
-width: 45px;
+.styleAutoScriptButton {
+    top: 4px;
+    right: 80px;
+    z-index: 20;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: auto;
+}
+.toggleStylingButton:checked ~ .styleAutoScriptButton {
+    display: none !important;
 }
 
-.weaponSlot {
-max-height: 35px;
+.styleAutoScriptDefault {
+    top: 4px;
+    right: 80px;
+    z-index: 20;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: auto;
+}
+.toggleStylingButton:not(:checked) ~ .styleAutoScriptDefault  {
+    display: none !important;
 }
 
-
-
-.weaponSlot .paletteButton, .weaponSlot .hide-toggle-rev, .weaponSlot .hide-item-rev {
-height: 30px !important;
-overflow: hidden !important;
+:is(.augmentBlock, .specialBlock, .skillBlock) .autoScriptButton {
+    right: 35px;
 }
 
-.paletteRange {
-font-weight: bold;
-color: #fff;
-opacity: 65%;
-text-align: center;
-overflow: hidden;
-width: 30px !important;
-height: 30px !important;
-position: relative;
-margin-left: 5px;
+.copyButton {
+    top: 5px;
+    right: 5px;
+    z-index: 1;
+    background-color: transparent;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/copy.png');
+    opacity: 50%;
 }
 
-.paletteRange .buffer {
-width: 100% !important;
-position: absolute; top: 0; right: 0;
-width: 30px !important;
-height: 30px !important;
-display: flex;
-align-items: center;
-justify-content: center;
+.displayButton {
+    top: 5px;
+    right: 35px;
+    z-index: 1;
+    background-color: transparent;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view-hide.png');
+    opacity: 50%;
 }
 
-.egoCheck {
-position: absolute !important;  
-top: 10px; 
-right: 5px; 
-height: 20px !important; 
-width: 20px !important; 
+.lockButton {
+    height: 30px;
+    width: 30px;
+    top: 3px;
+    left: 5px;
+    border-radius: 0px;
+    background-color: transparent;
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock-unlock.png');
+    opacity: 50%;
+}
+
+.syncIcon {
+    height: 5px;
+    width: 5px;
+    top: 7px;
+    left: 29px;
+    background-color: #cc4125;
+    border-radius: 100px;
+}
+
+.arrowholder {
+    height: 30px; 
+    width: auto !important;
+    position: absolute; 
+    top: 0px; 
+    left: 45px;
+    right: 0px; 
+    z-index: 1;
+}
+
+.arrow {
+    position: absolute; top: 12px; right: 10px;   
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 14px solid #fff;
+    opacity: 50%;
+}
+
+.switch-toggle:checked ~ .arrow {
+    position: absolute; top: 10px; right: 13px;  
+    width: 0px; 
+    height: 0px; 
+    border-left: none;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 14px solid #fff;
+    opacity: 100%;
+}
+
+.smallarrow {
+    width: 0px; 
+    height: 0px; 
+    border-bottom: none;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid #fff;
+    opacity: 50%;
+}
+
+.switch-toggle:checked ~ .smallarrow {
+    margin-bottom: 2px;
+    margin-right: 2px;
+    width: 0px; 
+    height: 0px; 
+    border-left: none;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 12px solid #fff;
+    opacity: 100%;
+}
+
+.switch-toggle:checked ~ .displayButton {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/view.png');
+}
+
+.switch-toggle:checked ~ .lockButton {
+    background-image: url('https://raw.githubusercontent.com/punibird/roll20-character-sheets/master/ProjectMoonTRPG/imagesResized/icons/lock.png');
+    opacity: 100%;
+}
+
+.btn {
+    border-radius: 5px;
+    background-image: none;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+    height: 20px;
+    padding: 3px;
+    border-radius: 3px;
+    color: #fff !important;
+    background-color: #222 !important;
+    border: 1px #111 solid;
+    font-weight: bold;
+    min-width: 40px;
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0));
+    text-align: center;
+    text-shadow: none;
+    box-shadow: none !important;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+/* Seem to be used specifically for custom ailments */
+.btn-danger {
+    width: 45px;
+    height: 25px;
 }
 
 /* Colors */
+.conditioalButtonColorSelection[value="blue"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-yellow { background-color: #7397d1; }
+.conditioalButtonColorSelection[value="yellow"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-blue { background-color: #dbb748; }
+.conditioalButtonColorSelection[value="orange"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-blue { background-color: #cf8c44; }
+.conditioalButtonColorSelection[value="red"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-red { background-color: #c25944; }
+.conditioalButtonColorSelection[value="purple"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-purple { background-color: #8e7cc3; }
+.conditioalButtonColorSelection[value="green"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-green { background-color: #85a874; }
+.conditioalButtonColorSelection[value="black"]:checked ~ .conditioalButtonColor,
+.sheet-rolltemplate-actionbuttons .sheet-green { background-color: #000000; }
+
+
 .WHITE {
-background-color: #eee !important;
+    background-color: #eee !important;
 }
 .BLACK {
-background-color: #000 !important;
+    background-color: #000 !important;
 }
 
 .HP{
 background-color: #cc4125 !important;
-//background-color: #cc2c2c !important;
 }
-.HPtext, .instinct {
+.HPtext, .instinct, .counterText {
 color: #cc4125 !important;
-//color: #cc2c2c !important;
 }
 
 
 .STGR {
-background-color: #dbb748 !important;
-//background-color: #f1c232 !important;}
+    background-color: #dbb748 !important;}
 .STGRtext {
-color: #dbb748 !important;
-//color: #f1c232 !important;}
+    color: #dbb748 !important;}
 
 .egoSTGR {
-background-color: #f1c232 !important;
+    background-color: #f1c232 !important;
 }
 
 .egoSTGRtext {
-color: #f1c232 !important;
+    color: #f1c232 !important;
 }
 
 .SAN {
-//background-color: #3c78d8 !important;
-background-color: #6d9eeb !important;}
+    background-color: #6d9eeb !important;}
 .SANtext {
-//color: #3c78d8 !important;
-color: #6d9eeb !important;
+    color: #6d9eeb !important;
 }
 
 .LIGHT {
-background-color: #fee2b0 !important;}
+    background-color: #fee2b0 !important;}
 .LIGHTtext {
-color: #fee2b0 !important;}
+    color: #fee2b0 !important;}
 
 .weapon {
-background-color: #c25944 !important;
-//background-color: #cc4125 !important;
+    background-color: #c25944 !important;
 }
 
 .outfit {
-background-color: #7397d1 !important;
-//background-color: #6d9eeb !important;
+    background-color: #7397d1 !important;
 }
 
+/* It's kind of incredible this is only the third mention of the word augment in this file. You'd expect it to come up a lot more */
 .augment {
-background-color: #85a874 !important;
-//background-color: #93c47d !important;}
+    background-color: #85a874 !important;}
 
 .tool {
-background-color: #8e7cc3 !important;}
+    background-color: #8e7cc3 !important;}
+
+.toolText {
+    color: #8e7cc3 !important;
+}
 
 .special {
-background-color: #cf8c44 !important;
-//background-color: #e69138 !important;
+    background-color: #cf8c44 !important;
 }
 
 .ego, .skillE {
-background-color: #111 !important;
+    background-color: #111 !important;
 }
 
 .skillN {
-background-color: #555 !important;
+    background-color: #555 !important;
 }
 
 .darkBG {
-background-color: #333 !important;
-padding: 5px !important;
+    background-color: #333 !important;
+    padding: 5px !important;
 }
 
-#egoDEF {
-border: 1px #6d9eeb solid;
-color: #6d9eeb !important;
-height: 30px;
-margin-right: 10px !important;
+.egoDiceDEF {
+    border: 1px #6d9eeb solid;
+    color: #6d9eeb !important;
+    height: 30px;
+    margin-right: 10px !important;
 }
 
-#egoEVD {
-border: 1px #f1c232 solid;
-color: #f1c232 !important;
-height: 30px;
+.egoDiceEVD {
+    border: 1px #f1c232 solid;
+    color: #f1c232 !important;
+    height: 30px;
 }
 
-#egoATK {
-border: 1px #cc4125 solid;
-color: #cc4125 !important;
-height: 30px;
+.egoDiceATK {
+    border: 1px #cc4125 solid;
+    color: #cc4125 !important;
+    height: 30px;
 }
 
-#egoATK input, #egoATK .plainText {
-color: #cc4125 !important;
+.egoDiceATK input, .egoDiceATK .plainText {
+    color: #cc4125 !important;
 }
 
-#egoDEF input, #egoDEF .plainText {
-color: #6d9eeb !important;
+.egoDiceDEF input, .egoDiceDEF .plainText {
+    color: #6d9eeb !important;
 }
 
-#egoEVD input, #egoEVD .plainText {
-color: #f1c232 !important;
+.egoDiceEVD input, .egoDiceEVD .plainText {
+    color: #f1c232 !important;
 }
-
 /* Colors end */
